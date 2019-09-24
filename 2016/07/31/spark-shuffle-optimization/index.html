@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>spark-shuffle性能优化 - Logger</title>
+<title>spark-shuffle性能优化 - Recorder</title>
 
 
     <meta name="description" content="Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Ma">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark-shuffle性能优化">
 <meta property="og:url" content="http://yoursite.com/2016/07/31/spark-shuffle-optimization/index.html">
-<meta property="og:site_name" content="Logger">
+<meta property="og:site_name" content="Recorder">
 <meta property="og:description" content="Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Ma">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
@@ -93,7 +93,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="spark-shuffle性能优化" height="28">
+                <img src="/images/og_image.png" alt="spark-shuffle性能优化" height="28">
             
             </a>
         </div>
@@ -1076,12 +1076,12 @@ org.apache.spark.shuffle.sort.SortShuffleManager（配置参数值为sort）</co
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="spark-shuffle性能优化" height="28">
+                    <img src="/images/og_image.png" alt="spark-shuffle性能优化" height="28">
                 
                 </a>
                 <p class="is-size-7">
                 &copy; 2019 Forway&nbsp;
-                Recording。如有错误，请指出，谢谢！
+                Recording 文章如有错误，请指出！
                 
                 </p>
             </div>
