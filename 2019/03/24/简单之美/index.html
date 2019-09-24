@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>简单之美 - Logger</title>
+
+
+    <meta name="description" content="我们遇到问题时，时不时会谷歌或百度一下，谷歌或百度能在毫秒级时间内响应结果网页，我们不禁会想谷歌或百度是不是使用了什么特别复杂厉害的算法，才能到达如此的快速响应。我们先看看建立一个搜索引擎大致需要做这样的几件事：自动下载互联网上的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序。一个高质量的搜索引擎要实现这3件事都不容易，但是呢，搜索引擎的基本原理还是相对简单的。我们平时使用的计算机可">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单之美">
+<meta property="og:url" content="http://yoursite.com/2019/03/24/简单之美/index.html">
+<meta property="og:site_name" content="Logger">
+<meta property="og:description" content="我们遇到问题时，时不时会谷歌或百度一下，谷歌或百度能在毫秒级时间内响应结果网页，我们不禁会想谷歌或百度是不是使用了什么特别复杂厉害的算法，才能到达如此的快速响应。我们先看看建立一个搜索引擎大致需要做这样的几件事：自动下载互联网上的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序。一个高质量的搜索引擎要实现这3件事都不容易，但是呢，搜索引擎的基本原理还是相对简单的。我们平时使用的计算机可">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-17T12:55:52.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单之美">
+<meta name="twitter:description" content="我们遇到问题时，时不时会谷歌或百度一下，谷歌或百度能在毫秒级时间内响应结果网页，我们不禁会想谷歌或百度是不是使用了什么特别复杂厉害的算法，才能到达如此的快速响应。我们先看看建立一个搜索引擎大致需要做这样的几件事：自动下载互联网上的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序。一个高质量的搜索引擎要实现这3件事都不容易，但是呢，搜索引擎的基本原理还是相对简单的。我们平时使用的计算机可">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="简单之美" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-24T01:10:10.000Z">2019-03-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    44 minutes read (About 6599 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                简单之美
+            
+        </h1>
+        <div class="content">
+            <p>我们遇到问题时，时不时会谷歌或百度一下，谷歌或百度能在毫秒级时间内响应结果网页，我们不禁会想谷歌或百度是不是使用了什么特别复杂厉害的算法，才能到达如此的快速响应。我们先看看建立一个搜索引擎大致需要做这样的几件事：自动下载互联网上的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序。一个高质量的搜索引擎要实现这3件事都不容易，但是呢，搜索引擎的基本原理还是相对简单的。我们平时使用的计算机可以处理复杂的逻辑计算，但其底层采用的是最简单的二进制计数方法，它只有两个数字：0和1。二进制除了是一种计数方法外，它还可以表示逻辑的 “是” 与 “非”，这个特征在搜索引擎的索引中非常有用。布尔运算是针对二进制的，它很简单，可能没有比布尔运算更简单的运算了。搜索引擎的实现，从根本上就离不开布尔运算的框架。</p>
+<a id="more"></a> 
+
+<center><img src="/images/architecture/simple_beauty/simple_beauty.png"></center>
+
+<p>布尔运算具有以下特点。布尔运算的元素只有两个：1（TRUE，真），0（FALSE，假）。基本的运算只有3种：与（AND）、或（OR）、非（NOT）。其对应的真值表如下：</p>
+<p>与运算-真值表</p>
+<p>AND | &nbsp;&nbsp; 1 &nbsp;&nbsp; | &nbsp;&nbsp; 0 &nbsp;&nbsp;<br>—|—|—|—<br><strong>1</strong> | &nbsp;&nbsp; 1 &nbsp;&nbsp; | &nbsp;&nbsp; 0 &nbsp;&nbsp;<br><strong>0</strong> | &nbsp;&nbsp; 0 &nbsp;&nbsp; | &nbsp;&nbsp; 0 &nbsp;&nbsp;</p>
+<p>或运算-真值表</p>
+<p>OR | &nbsp;&nbsp; 1 &nbsp;&nbsp; | &nbsp;&nbsp; 0 &nbsp;&nbsp;<br>—|—|—|—<br><strong>1</strong> | &nbsp;&nbsp; 1 &nbsp;&nbsp; | &nbsp;&nbsp; 1 &nbsp;&nbsp;<br><strong>0</strong> | &nbsp;&nbsp; 1 &nbsp;&nbsp; | &nbsp;&nbsp; 0 &nbsp;&nbsp;</p>
+<p>非运算-真值表</p>
+<p>NOT | &nbsp;<br>—|—|—|—<br><strong>1</strong> | &nbsp;&nbsp; 0 &nbsp;&nbsp;<br><strong>0</strong> | &nbsp;&nbsp; 1 &nbsp;&nbsp;</p>
+<p>在讲搜索引擎的基本原理之前，先看一个例子：如果你是图书馆管理员，如何才能让读者快速有效的找到一本书，你肯定会注意到，那就是为每一本书打上索引标签，我们不可能在图书馆书架上一本本地找，而是通过搜索索引标签定位到它的位置，然后直接去书架上拿。我们可以把一个网页比当做一本书，那接下来就要为网页创建索引，最简单的索引结构是用一个很长的二进制数表示一个关键字是否出现在网页中，每一位对应一个网页，1 代表相应的网页包含这个关键字，0 代表没有。比如关键字 “简单” 对应的二进制数是 0100000101…，表示第二、第八、第十个网页包含这个关键字。同样，假定 “架构” 对应的二进制数是 0100110011…，那么要找到同时包含 “简单” 和 “架构” 的网页时，只需要将这两个二进制数进行布尔运算AND。根据上面的真值表，可以得到结果为 0100000001…，表示第二、第十个网页满足需求，而计算机做布尔运算的速度是非常快的，所以我们使用搜索引擎时，能够快速的搜索到想要的结果。然而互联网上的网页数量是庞大的，由于这些二进制数中的绝大部分位数都是 0，只需要记录那些等于 1的位数即可。这样，搜索引擎的索引就变成了一张大表：表的每一行对应一个关键字，每个关键字后面跟着一组二进制数字，包含了该关键字的网页索引号（这种索引的结构设计，也称 “倒排索引”）。当然，要设计和实现一个高质量的搜索引擎远还是非常复杂的，但是原理上还是相对简单的，即等价于布尔运算。</p>
+<p>布尔运算非常简单，但是对搜索引擎的实现有着重大意义，这让我们感受到了简单之美。在实际开发产品的解决方案中，首选的做法是采取简单的实现方式。问题的复杂度要与解决问题的方法及成本相匹配，尽量的保持问题解决方案的简单，我们认为复杂问题只是一系列小而简问题的集合。本章和大家探讨一下如何把大事化小，从而达到事倍功半。下面从6个规则来分别讲诉“如何简化”，有的规则比较宏观，适用多种场景，有的规则比较微观，只适用特定场景。</p>
+<h3 id="规则1-避免复杂设计"><a href="#规则1-避免复杂设计" class="headerlink" title="规则1-避免复杂设计"></a>规则1-避免复杂设计</h3><ul>
+<li><strong>内容</strong>：在设计中要警惕复杂的解决方案。</li>
+<li><strong>场景</strong>：适用于任何项目的设计中，特别是庞大而复杂的系统或项目。</li>
+<li><strong>用法</strong>：当设计出解决方案时，通过测试同事是否能够容易理解和实现你的方案，来验证是否存在复杂设计。</li>
+<li><strong>原因</strong>：复杂的解决方案在实现和维护上成本高（包括人力成本和时间成本）。</li>
+<li><strong>要点</strong>：过度复杂的系统限制了可扩展性。简单的系统易维护、易扩展、成本低。</li>
+</ul>
+<p>关于复杂设计，主要包括两方面，一是系统或项目结构的复杂性，一是业务逻辑的复杂性。</p>
+<p>（1）结构复杂的系统可以归为具有两个特点：组成复杂系统的组件数量过多，同时这些组件之间的关系依赖过于复杂。如果组件的抽象程度和具体程度没有设计好，很容易面临牵一发而动全身的局面。<br>结构复杂有如下缺点：<br>&nbsp;&nbsp; a、组件越多，某个组件出现故障的概率也就越大，从而越容易导致系统故障。<br>&nbsp;&nbsp; b、组件关系依赖越复杂，当某个组件有变动时，会影响所有和它有关系的其它组件，同样这些被影响的组件也会递归性的影响更多的组件。<br>&nbsp;&nbsp; c、定位一个复杂系统的问题比简单系统更加困难，在排查问题时，需要对所有相关组件都要逐一排查，降低解决问题的效率。</p>
+<p>（2）逻辑复杂的系统的一个典型特点是单个组件承担了太多的功能。以电商系统为例，常见的功能有：商品管理、库存管理、订单管理、用户管理、支付、物流、客服……如果把这些功能都放在一个组件上实现，可想而知，这个组件简直就是一个巨型、笨重的巨无霸。逻辑复杂的另外一个典型特点是采用了复杂的处理算法，复杂处理算法导致的问题主要是理解上，从而导致难以实现、难以维护。</p>
+<p>复杂设计是可扩展性的大敌之一。设计的越复杂，问题也就越多，越不易于后续的扩展。有一个好方法可以验证解决方案是否过于复杂，把解决方案展现给不同的技术团队，如果每个技术团队都能够轻松理解方案，并可以向其他人描述该方案，那就可以采用该方案，如果有其中一个技术团队表示不理解，那就要针对该方案是否过于复杂而进行辩论或调整。所以架构设计时谨遵一句话：Keep It Simple! 如果使用简单的解决方案就可以满足需求，那就选择简单方案。</p>
+<h3 id="规则2-方案中包含可扩展"><a href="#规则2-方案中包含可扩展" class="headerlink" title="规则2-方案中包含可扩展"></a>规则2-方案中包含可扩展</h3><ul>
+<li><p><strong>内容</strong>：提供及时可扩展性的DID方法。</p>
+</li>
+<li><p><strong>场景</strong>：适用于任何项目的设计中，是保证可扩展性的最经济有效的方法（资源和时间）。</p>
+</li>
+<li><p><strong>用法</strong>：</p>
+<pre><code>1.Design（D）设计20倍的容量。
+2.Implement（I）实施3倍的容量。
+3.Deploy（D）部署1.5倍的容量。</code></pre></li>
+<li><p><strong>原因</strong>：DID为产品扩展提供了经济、有效、及时的方法。</p>
+</li>
+<li><p><strong>要点</strong>：在项目设计早期考虑扩展可以帮助团队节省时间和金钱，在需求发生大约一个月前实现功能，在客户蜂拥而至的前几天部署。</p>
+</li>
+</ul>
+<p>我们经常遇到的一个问题是 “什么时候该在扩展上投入”，有些轻率的答案是，最好是在需要的前一天投入和部署，因为这样才能使得这笔投资的价值最大化，用最少的钱换取最大的收益，有助于公司财务和股东利益最大化。但是很遗憾，这是不现实的，及时投入和部署根本就不可能，而且会带来很大风险，影响及时投入和部署的因素有：无法确定的具体时间、无法预测的具体流量、无法感知的竞争波动等。<br>我们虽然不能做到及时投入和部署，但是我们尽可能的靠近 “实时”。这里采用AKF合伙公司在思考可扩展性时用的DID（设计-实施-部署）方法。这3个步骤和总所周知的认知阶段一致：思考问题和设计方案，为方案构建系统和代码实现，最后是安装和部署。<br><em>表：扩展的DID过程</em></p>
+<table>
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>设计</th>
+<th>实施</th>
+<th>部署</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>扩展的目标</td>
+<td>20倍~无限</td>
+<td>3~20倍</td>
+<td>1.5~3倍</td>
+</tr>
+<tr>
+<td>智力成本</td>
+<td>高</td>
+<td>中</td>
+<td>低到中</td>
+</tr>
+<tr>
+<td>工程成本</td>
+<td>低</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>资产成本</td>
+<td>低</td>
+<td>低到中</td>
+<td>高到很高</td>
+</tr>
+<tr>
+<td>总成本</td>
+<td>低到中</td>
+<td>中</td>
+<td>中</td>
+</tr>
+</tbody></table>
+<p>（1）设计（D，Design）<br>在项目的设计阶段，讨论和设计很明显要比我们在代码中实现该设计的成本更低，我们可以未雨绸缪，讨论好和草拟好如何扩展平台的设计。例如，最开始我们明显不想部署比现场的生产环境高出10倍、20倍甚至100倍的容量（这里的容量指的是系统的可扩展程度，包括：流量资源、计算资源、存储资源等），由于在设计阶段考虑扩展维度的成本比较低，建议在DID的D（设计）阶段聚焦在扩展到20倍到无限大之间。我们需要时刻进行 “头脑风暴”来思考和讨论 “大问题”，所以我们的智力成本很高。然而，我们不编写代码和部署昂贵的系统，所以工程成本和资产成本较低。最后我们归结到D阶段的总成本是低到中，所以我们应该好好利用该方法，在设计阶段发现和确定需要扩展的部分。</p>
+<p>（2）实施（I，Implement）<br>设计方案确定后，我们可以开始编写代码实现设计。实施阶段是实现具体细节的阶段，建议在DID的I（实施）阶段实现当前规模的 3<del>20倍。“规模”在这里是指扩大最大瓶颈的系统组件，用以实现业务目标。可能在有些情况下，把一个组件的规模扩大100倍的成本与扩大20倍没有区别，如果是这样，我们可以一次完成该扩展的改变，而并非反复折腾。如随着用户数量的逐渐增大，平台需要基于用户属性（用户ID）取模来进行分库存储，把用户分散到多个（N个）数据库。我们可以定义一个可配置的变量User_Mod，其取值范围是1（现在）</del>5（预测3年内使用5个数据库存储），如果经过1年后，发现用户的增长速度大于预期值，则可以把User_Mod的取值范围改为1~10，这样就达到可以轻易的扩展规模。这种改变的实施成本确实不会随着规模N的的变化而变化，这类改变以工程成本计算很高，以智力成本计算中等，以资产成本计算低到中。最后我们归结到I阶段的总成本是中，该阶段主要涉及到代码的具体实现，需要把代码架构涉及为易于扩展，尽可能的使用可配置的方式达到扩容。</p>
+<p>（2）部署（D，Deploy）<br>DID的最后阶段是部署（D）。仍以前面的用户取模为例，我们希望以及时的方式部署系统，没有理由因为资产空闲而稀释股东的价值。该阶段的资产成本往往是最高的，部署相当于现有规模100倍的系统将会使很多公司破产，建议在该阶段的扩容提高到1.5~3倍（根据实际情况而定，如果是超高增长的公司，可以考虑提高到5倍）。然而，我们没有必要把33%甚至更多的的资源放在那里等待突然爆发的用户活动，云计算就是一个用来应付突发请求的不错选择。记住，扩展要具有弹性，它既可以扩展也可以收缩，随着用户流量的变动而调整容量。</p>
+<p>对于可扩展的设计和思考的成本相对较低，因此应该经常进行。对于实施阶段的成本是中等，应该考虑到代码架构的实现和扩容，尽可能的实现可配扩容。最后，就是部署阶段的基础设施的扩容，根据需要提前做好设备的订购准备，建议使用云服务，在接近所需和接近实时的情况下，快速的把所有服务部署运行起来。</p>
+<h3 id="规则3-3次简化方案"><a href="#规则3-3次简化方案" class="headerlink" title="规则3-3次简化方案"></a>规则3-3次简化方案</h3><ul>
+<li><p><strong>内容</strong>：在设计复杂系统时，从项目的范围、设计和实施角度简化方案。</p>
+</li>
+<li><p><strong>场景</strong>：当设计复杂系统或产品时，面临着技术和计算资源的限制。</p>
+</li>
+<li><p><strong>用法</strong>：</p>
+<pre><code>1.采用帕累托（Pareto）原则简化范围。
+2.考虑成本优化和可扩展性来简化设计。
+3.依靠他人的经验来简化实施。</code></pre></li>
+<li><p><strong>原因</strong>：只聚焦“不过度复杂”，并不能解决需求或历史发展与沿革中的各种问题。</p>
+</li>
+<li><p><strong>要点</strong>：在产品研发的各个阶段都需要做好简化。</p>
+</li>
+</ul>
+<p>规则1是关于抑制某些方案过于复杂的冲动，而规则3这是关于采用什么方法来进一步简化方案，主要从3个方法来简化：如何简化方案范围？如何简化方案设计？如何简化方案实施？</p>
+<p>（1）如何简化方案范围<br>对于这个简化问题的答案就是不断的应该用帕累托原则，也就是二八定理。如：“收益的80%来自于20%的工作”，也就是说“你收益的80%是由哪些20%的功能实现的？”，做的少同时取得显著的效益。也就是说要学会做“减法”，删除掉一些不必要的功能，最开始设计项目和产品时，避免设计的又全又大，把所有精力和注意力都放在最主要的功能上面。这样的好处是系统将会减少功能之间的依赖关系，可以更高效和更高本益比的进行扩展。借用马蒂·凯甘的理念 “最小化可行产品”，秉持着 “You Can Always Do Less”来简化方案范围。</p>
+<p>（2）如何简化方案设计<br>简化设计于过度设计的复杂性密切相关，消除复杂性也就是忽略无关要紧的模块。简化设计是基于具体场景而定的，如：为了让请求及时响应，可以先在缓存中获取数据，缓存中没有再从数据库中获取，这就是缓存的应用。为了统计某个文件的单词频率，看起来可以使用流行的MapReduce算法来处理，但是如果只是一个小文件，就不必要使用重量级的MapReduce算法，直接使用一个简单的程序来实现更有道理。简单的说，简化设计的步骤要求易于理解、低成本、高效益和可扩展的方式来完成工作。</p>
+<p>（3）如何简化方案实施<br>方案实施是方案的代码实现，这个也是基于具体场景来定的。如：某个问题，是使用递归还是循环来实现？某个解决方案，是自己研发还是使用开源项目？这些问题的答案都指向了一个公共主题：如何利用其它经验和已存在方案来简化方案实施。考虑到成本问题，我们应该首先寻找被广泛采用的开源项目满足需求，如果这些不存在，应该寻找本公司或其它组织内有类似解决方案经验的人来解决问题，如果都不存在，才考虑是否要自己研发来解决问题。</p>
+<h3 id="规则4-减少域名解析"><a href="#规则4-减少域名解析" class="headerlink" title="规则4-减少域名解析"></a>规则4-减少域名解析</h3><ul>
+<li><strong>内容</strong>：从用户角度减少域名解析次数。</li>
+<li><strong>场景</strong>：对性能敏感的所有网页。</li>
+<li><strong>用法</strong>：尽量减少下载页面所需的域名解析次数，但要保持于浏览器的并发连接数平衡。</li>
+<li><strong>原因</strong>：域名解析耗时而且大量域名解析会影响用户体验。</li>
+<li><strong>要点</strong>：减少对象、任务、计算等是加快页面加载输的的好办法，但要权衡浏览器的并发连接数。</li>
+</ul>
+<p>本规则让我们在用户的浏览器上考虑简化的问题。当你浏览一个网页时，使用浏览器的开发者工具（火狐firebug、chrome开发工具等）就会观察到一些有趣的结果。你会发现网页上的对象（html、图像、js、css等）的下载时间各不相同，而有一个额外的步骤就是域名解析。域名服务系统（DNS）是互联网中最重要的部分之一，它的作用是把一个域名（<a href="http://www.google.com）解析为对应的IP（x.x.x.x）。事实上，几乎所有的网页都是由许多不同的对象组成，浏览器就是基于此，通过并发连接同时下载过个对象。浏览器对每个服务器或网关代理的最大持久并发连接数有限制。根据HTTP/1.1" target="_blank" rel="noopener">www.google.com）解析为对应的IP（x.x.x.x）。事实上，几乎所有的网页都是由许多不同的对象组成，浏览器就是基于此，通过并发连接同时下载过个对象。浏览器对每个服务器或网关代理的最大持久并发连接数有限制。根据HTTP/1.1</a> RFC协议，这个最大值应该设置为2。但是，现在许多浏览器都忽略此限制，把最大值设置为6或者更大。</p>
+<p>由此可见，网页上的域名解析次数越少，网页下载的性能就越好。但是把所有的对象都放在同一个域中会带来问题，那就是浏览器对同一个域的并发连接数做了限制。如何权衡域和浏览器的并发数量，我们在下一个规则中来探讨这个问题。</p>
+<h3 id="规则5-减少页面目标"><a href="#规则5-减少页面目标" class="headerlink" title="规则5-减少页面目标"></a>规则5-减少页面目标</h3><ul>
+<li><strong>内容</strong>：尽可能的减少网页上的对象数量。</li>
+<li><strong>场景</strong>：对性能敏感的所有网页。</li>
+<li><strong>用法</strong>：<pre><code>1.减少或者合并对象，但要平衡最大并发连接数。
+2.寻找机会减轻对象的重量。
+3.不断测试确保性能的提升。</code></pre></li>
+<li><strong>原因</strong>：对象数量的多少直接影响网页的下载时间。</li>
+<li><strong>要点</strong>：对象数量和浏览器并发连接数的平衡是一门科学，需要不断测量和调整。这是在易用性、可用性和性能之间的平衡。</li>
+</ul>
+<p>2009年谷歌发布了一份白皮书，声称测试表明搜索延迟如果增加400毫秒将每日搜索量减少大约0.6%，可以看出网页下载时间对于保住流量的重要性。一个网页包含许多不同的对象（html、图像、js、css等），浏览器会分别独立下载这些对象，而且是以并发的方式下载的。改进网页的第一个方法是减少对象的数量。大多数网页中下载比较耗时的是图像对象，如果一个网页的图像对象过多，如上百个，该网页的平均响应时间超过12秒，那该网站已经面临着损失有价值的流量。一个好的方法就是使用图像精灵，把一些小图像组合成一个大的图像，通过CSS来单独显示其中的任何一个图像，这样图像的请求数量会显著减少。当然，不是说把网页对象删除的越多越好，必须在把重要信息传达给客户的前提下，做好简化工作。</p>
+<p>从上一个规则中，我们知道浏览器支持从单一域名同时下载多个对象，如果所有的元素都集中到一个对象中，那么浏览器的并发下载的能力就无法起作用，我们需要考虑把这些对象拆分为多个较小的对象，以便同时下载。</p>
+<p>流量器对每个域名服务的并发连接数存在的资源限制。如果网页上的多有对象都来自单个域名，那么浏览器设置的最大连接数是多少，支持同时下载的对象就是多少。因此，最好把网页的内容拆分为合适多的对象数，以便利用浏览器的并发下载功能。有一种技巧就是把不同网页对象分别存储在不同的子域名上（例如：google.com,  static1.google.com, static2.google.com）。浏览器把这些当成不同的域名对待，允许每个子域名拥有自己的最大并发连接数。</p>
+<p>理想的网页应该有多少个对象以及多大重量没有绝对的答案。提高网页性能和可扩展的关键是测试。这需要考虑很多因素，如尽可能的保持网页足够轻，在网页必须很重的情况下，采用Gzip压缩以减轻网页的传输压力，利用浏览器缓存、缩小文件、延迟加载等优化技术。总之，页面上的对象越少性能越好，当必须与其它因素平衡，通过不断测试和调整来优化达到最佳效果。</p>
+<h3 id="规则6-采用同构网络"><a href="#规则6-采用同构网络" class="headerlink" title="规则6-采用同构网络"></a>规则6-采用同构网络</h3><ul>
+<li><p><strong>内容</strong>：确保交换机和路由器源于同一供应商。</p>
+</li>
+<li><p><strong>场景</strong>：设计和扩大网络。</p>
+</li>
+<li><p><strong>用法</strong>：</p>
+<pre><code>1.不要混合使用来自不同OEM的交换机和路由器。
+2.购买或者开源的其它网络设备（防火墙等）。</code></pre></li>
+<li><p><strong>原因</strong>：不同供应商或品牌的设备存在兼容问题，混合使用导致不可用性和限制扩展性。</p>
+</li>
+<li><p><strong>要点</strong>：异构网络设备容易导致可用性和扩展性问题，选择单一供应商。</p>
+</li>
+</ul>
+<p>几乎所有的网络设备供应商都声称在他们的设备上实现了标准协议，允许来自不同供应商的设备之间进行通信，但是许多供应商也在设备上实现了专有协议，如思科的增强型内部网关路由协议。做过网站开发的就知道同一个网页在IE、Firefox和Chrome等不同浏览器的上的呈现效果就会不一样，这就是按照同一标准的不同实现上会有多么的不同了。因此，建议使用同一供应商的网络设备，这样就避免出现兼容性的问题。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本章主要围绕简化这个主题来探讨了6个简化规则，如何防止复杂性（规则1），如何尽早考虑扩展（规则2），如何从初始需求到最终实施做出简化（规则3），如何减少域名解析次数和减少页面对象数量（规则4和5），如何保持网络的简单和同构（规则6）。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/30/分而治之/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">分而治之</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/10/28/回归-线性回归/">
+                <span class="level-item">线性回归</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Your name">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Your name
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Your title
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Your location</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        21
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        9
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/elasticsearch/">
+            <span class="level-start">
+                <span class="level-item">elasticsearch</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/flume/">
+            <span class="level-start">
+                <span class="level-item">flume</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/game/">
+            <span class="level-start">
+                <span class="level-item">game</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/java/">
+            <span class="level-start">
+                <span class="level-item">java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/elasticsearch/">
+                        <span class="tag">elasticsearch</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/flume/">
+                        <span class="tag">flume</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/game/">
+                        <span class="tag">game</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/spark/">
+                        <span class="tag">spark</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/回归/">
+                        <span class="tag">回归</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/机器学习/">
+                        <span class="tag">机器学习</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/elasticsearch/">
+                        <span class="tag">elasticsearch</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/flume/">
+                        <span class="tag">flume</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/game/">
+                        <span class="tag">game</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/spark/">
+                        <span class="tag">spark</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/回归/">
+                        <span class="tag">回归</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/机器学习/">
+                        <span class="tag">机器学习</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="简单之美" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Forway&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
