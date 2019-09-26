@@ -86,8 +86,15 @@
 
 
 <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+
+
 </head>
-<body class="is-3-column">
+<body class="is-2-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
@@ -134,7 +141,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-image">
         <span  class="image is-7by1">
@@ -196,6 +203,22 @@
 <p>预估要存的数据量为：n<br>期望的误判率为：P<br>Bit数组的大小为：m<br>Hash函数的个数为：k<br><strong>推导过程：</strong><br>1）对某一特定bit位在一个元素由某特定hash函数插入时没有被置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/03.png"><br>2）则k个hash函数都没有将其置为1概率为：<br><img src="/images/machine-learning/bloomfilter/04.png"><br>3）如果插入了n个元素，都未将其置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/05.png"><br>4）反过来，则此位被置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/06.png"><br>5）一个不在集合中的元素，被误判在集合中的概率：<br><img src="/images/machine-learning/bloomfilter/07.png"><br>6）根据自然常数公式： lim(1+1/x)^x, x→∞，得出：<br><img src="/images/machine-learning/bloomfilter/08.png"><br>7）k为何值时可以使得误判率最低。设误判率为k的函数：<br><img src="/images/machine-learning/bloomfilter/09.png"><br>8）设：<br><img src="/images/machine-learning/bloomfilter/10.png"><br>9）则简化为：<br><img src="/images/machine-learning/bloomfilter/11.png"><br>10）两边取对数：<br><img src="/images/machine-learning/bloomfilter/12.png"><br>11）两边对k求导：<br><img src="/images/machine-learning/bloomfilter/13.png"><br>12）下面求最值：<br><img src="/images/machine-learning/bloomfilter/14.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/15.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/16.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/17.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/18.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/19.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/20.png"><br>==&gt;<br>则误判率最低时，得出k值：<br><img src="/images/machine-learning/bloomfilter/21.png"><br>13）把k代入误判率公式，得出：<br><img src="/images/machine-learning/bloomfilter/22.png"><br>14）把k代入误判率公式，得出m值：<br><img src="/images/machine-learning/bloomfilter/23.png"></p>
 
         </div>
+
+
+
+        <div class="level is-size-7 has-text-grey">
+                <div class="level-left">
+                        <i class="far fa-eye"></i>
+                        <span>&nbsp;</span>
+                        <span id="busuanzi_container_page_pv" style="display: inline;">
+                                <span id="busuanzi_value_page_pv">0</span>
+                        </span>
+                </div>
+        </div>
+
+
+
+
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
@@ -209,6 +232,7 @@
         
         
     </div>
+
 </div>
 
 
@@ -269,13 +293,15 @@
 
     </div>
 </div>
+
 </div>
+                
                 
 
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right ">
     
         
 <div class="card widget">
@@ -457,6 +483,206 @@
     </div>
 </div>
     
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
+                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/elasticsearch/">
+                        <span class="tag">elasticsearch</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/flume/">
+                        <span class="tag">flume</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/game/">
+                        <span class="tag">game</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/spark/">
+                        <span class="tag">spark</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/回归/">
+                        <span class="tag">回归</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/机器学习/">
+                        <span class="tag">机器学习</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a>
+    </div>
+</div>
+
+    
         <div class="card widget">
     <div class="card-content">
         <div class="menu">
@@ -548,420 +774,6 @@
 </div>
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/elasticsearch/">
-                        <span class="tag">elasticsearch</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/flume/">
-                        <span class="tag">flume</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/game/">
-                        <span class="tag">game</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/java/">
-                        <span class="tag">java</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/linux/">
-                        <span class="tag">linux</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spark/">
-                        <span class="tag">spark</span>
-                        <span class="tag is-grey">6</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/回归/">
-                        <span class="tag">回归</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/机器学习/">
-                        <span class="tag">机器学习</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/架构/">
-                        <span class="tag">架构</span>
-                        <span class="tag is-grey">6</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/算法/">
-                        <span class="tag">算法</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Tag Cloud
-        </h3>
-        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a>
-    </div>
-</div>
-
-        
-        </div>
-    
-</div>
-
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/elasticsearch/">
-                        <span class="tag">elasticsearch</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/flume/">
-                        <span class="tag">flume</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/game/">
-                        <span class="tag">game</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/java/">
-                        <span class="tag">java</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/linux/">
-                        <span class="tag">linux</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/spark/">
-                        <span class="tag">spark</span>
-                        <span class="tag is-grey">6</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/回归/">
-                        <span class="tag">回归</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/机器学习/">
-                        <span class="tag">机器学习</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/架构/">
-                        <span class="tag">架构</span>
-                        <span class="tag is-grey">6</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/算法/">
-                        <span class="tag">算法</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Tag Cloud
-        </h3>
-        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a>
-    </div>
-</div>
-
-    
-    
 </div>
 
             </div>
@@ -987,6 +799,17 @@
             
             </div>
         </div>
+
+<span id="busuanzi_container_site_uv">
+    访问者：
+    <span id="busuanzi_value_site_uv">0</span>
+    ，访问次数
+</span>
+<span id="busuanzi_container_site_pv">
+    <span id="busuanzi_value_site_pv">0</span>
+</span>
+
+
 
     </div>
 
