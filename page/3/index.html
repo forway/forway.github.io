@@ -78,15 +78,13 @@
     
     
     
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
 
 
 <link rel="stylesheet" href="/css/style.css">
-
-
-
-
-
-
 
 </head>
 <body class="is-2-column">
@@ -168,21 +166,6 @@
         <div class="content">
             <p>Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Manager在文件读写效率方面的问题而实现的Sort Base的Shuffle Manager。</p>
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         
@@ -714,7 +697,6 @@
         </div>
     </section>
     <footer class="footer">
-
     <div class="container">
         <div class="level">
             <div class="level-start has-text-centered-mobile">
@@ -727,6 +709,22 @@
                 &copy; 2019 Forway&nbsp;
                 Recording -- 文章如有错误，请指出！
                 
+                <br>
+
+		<!-- 修改访问统计量
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users	
+                </span>
+		-->
+
+		<span id="busuanzi_container_site_uv">
+		  本站访客数 <span id="busuanzi_value_site_uv"></span> 人次，
+		</span>
+		<span id="busuanzi_container_site_pv">
+			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span>
+
+                
                 </p>
             </div>
             <div class="level-end">
@@ -734,19 +732,7 @@
             </div>
         </div>
 
-<span id="busuanzi_container_site_uv">
-    访问者：
-    <span id="busuanzi_value_site_uv">0</span>
-    ，访问次数
-</span>
-<span id="busuanzi_container_site_pv">
-    <span id="busuanzi_value_site_pv">0</span>
-</span>
-
-
-
     </div>
-
 </footer>
 
 
@@ -851,6 +837,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     
+    
+
     
 
 

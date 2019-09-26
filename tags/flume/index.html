@@ -78,15 +78,13 @@
     
     
     
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
 
 
 <link rel="stylesheet" href="/css/style.css">
-
-
-
-
-
-
 
 </head>
 <body class="is-2-column">
@@ -179,21 +177,6 @@
             <h3 id="拦截器介绍"><a href="#拦截器介绍" class="headerlink" title="拦截器介绍"></a>拦截器介绍</h3><p>一个拦截器的功能可以被概括为这个方法：<br>    public Event intercept(Event event);</p>
 <p>它传入一个event然后返回一个event。它可以不做任何事情；也就是说没有任何改变的event将被返回。通常来说，它用一些有用的方式来改变event的内容。如果返回null值，这个event就表示被丢弃了。</p>
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         
@@ -704,7 +687,6 @@
         </div>
     </section>
     <footer class="footer">
-
     <div class="container">
         <div class="level">
             <div class="level-start has-text-centered-mobile">
@@ -717,6 +699,22 @@
                 &copy; 2019 Forway&nbsp;
                 Recording -- 文章如有错误，请指出！
                 
+                <br>
+
+		<!-- 修改访问统计量
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users	
+                </span>
+		-->
+
+		<span id="busuanzi_container_site_uv">
+		  本站访客数 <span id="busuanzi_value_site_uv"></span> 人次，
+		</span>
+		<span id="busuanzi_container_site_pv">
+			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span>
+
+                
                 </p>
             </div>
             <div class="level-end">
@@ -724,19 +722,7 @@
             </div>
         </div>
 
-<span id="busuanzi_container_site_uv">
-    访问者：
-    <span id="busuanzi_value_site_uv">0</span>
-    ，访问次数
-</span>
-<span id="busuanzi_container_site_pv">
-    <span id="busuanzi_value_site_pv">0</span>
-</span>
-
-
-
     </div>
-
 </footer>
 
 
@@ -841,6 +827,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     
+    
+
     
 
 

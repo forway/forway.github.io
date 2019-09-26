@@ -83,15 +83,13 @@
     
     
     
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
 
 
 <link rel="stylesheet" href="/css/style.css">
-
-
-
-
-
-
 
 </head>
 <body class="is-2-column">
@@ -161,6 +159,11 @@
                 </span>
                 
                 
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
             </div>
         </div>
         
@@ -208,21 +211,6 @@ B=取出红球
 
 
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         <div class="level is-size-7 is-uppercase">
@@ -785,7 +773,6 @@ B=取出红球
         </div>
     </section>
     <footer class="footer">
-
     <div class="container">
         <div class="level">
             <div class="level-start has-text-centered-mobile">
@@ -798,6 +785,22 @@ B=取出红球
                 &copy; 2019 Forway&nbsp;
                 Recording -- 文章如有错误，请指出！
                 
+                <br>
+
+		<!-- 修改访问统计量
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users	
+                </span>
+		-->
+
+		<span id="busuanzi_container_site_uv">
+		  本站访客数 <span id="busuanzi_value_site_uv"></span> 人次，
+		</span>
+		<span id="busuanzi_container_site_pv">
+			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span>
+
+                
                 </p>
             </div>
             <div class="level-end">
@@ -805,19 +808,7 @@ B=取出红球
             </div>
         </div>
 
-<span id="busuanzi_container_site_uv">
-    访问者：
-    <span id="busuanzi_value_site_uv">0</span>
-    ，访问次数
-</span>
-<span id="busuanzi_container_site_pv">
-    <span id="busuanzi_value_site_pv">0</span>
-</span>
-
-
-
     </div>
-
 </footer>
 
 
@@ -922,6 +913,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     
+    
+
     
 
 

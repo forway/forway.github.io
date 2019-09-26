@@ -83,15 +83,13 @@
     
     
     
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
 
 
 <link rel="stylesheet" href="/css/style.css">
-
-
-
-
-
-
 
 </head>
 <body class="is-2-column">
@@ -167,6 +165,11 @@
                 </span>
                 
                 
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
             </div>
         </div>
         
@@ -203,21 +206,6 @@
 <p>预估要存的数据量为：n<br>期望的误判率为：P<br>Bit数组的大小为：m<br>Hash函数的个数为：k<br><strong>推导过程：</strong><br>1）对某一特定bit位在一个元素由某特定hash函数插入时没有被置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/03.png"><br>2）则k个hash函数都没有将其置为1概率为：<br><img src="/images/machine-learning/bloomfilter/04.png"><br>3）如果插入了n个元素，都未将其置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/05.png"><br>4）反过来，则此位被置为1的概率为：<br><img src="/images/machine-learning/bloomfilter/06.png"><br>5）一个不在集合中的元素，被误判在集合中的概率：<br><img src="/images/machine-learning/bloomfilter/07.png"><br>6）根据自然常数公式： lim(1+1/x)^x, x→∞，得出：<br><img src="/images/machine-learning/bloomfilter/08.png"><br>7）k为何值时可以使得误判率最低。设误判率为k的函数：<br><img src="/images/machine-learning/bloomfilter/09.png"><br>8）设：<br><img src="/images/machine-learning/bloomfilter/10.png"><br>9）则简化为：<br><img src="/images/machine-learning/bloomfilter/11.png"><br>10）两边取对数：<br><img src="/images/machine-learning/bloomfilter/12.png"><br>11）两边对k求导：<br><img src="/images/machine-learning/bloomfilter/13.png"><br>12）下面求最值：<br><img src="/images/machine-learning/bloomfilter/14.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/15.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/16.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/17.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/18.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/19.png"><br>==&gt;<br><img src="/images/machine-learning/bloomfilter/20.png"><br>==&gt;<br>则误判率最低时，得出k值：<br><img src="/images/machine-learning/bloomfilter/21.png"><br>13）把k代入误判率公式，得出：<br><img src="/images/machine-learning/bloomfilter/22.png"><br>14）把k代入误判率公式，得出m值：<br><img src="/images/machine-learning/bloomfilter/23.png"></p>
 
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         <div class="level is-size-7 is-uppercase">
@@ -780,7 +768,6 @@
         </div>
     </section>
     <footer class="footer">
-
     <div class="container">
         <div class="level">
             <div class="level-start has-text-centered-mobile">
@@ -793,6 +780,22 @@
                 &copy; 2019 Forway&nbsp;
                 Recording -- 文章如有错误，请指出！
                 
+                <br>
+
+		<!-- 修改访问统计量
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users	
+                </span>
+		-->
+
+		<span id="busuanzi_container_site_uv">
+		  本站访客数 <span id="busuanzi_value_site_uv"></span> 人次，
+		</span>
+		<span id="busuanzi_container_site_pv">
+			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span>
+
+                
                 </p>
             </div>
             <div class="level-end">
@@ -800,19 +803,7 @@
             </div>
         </div>
 
-<span id="busuanzi_container_site_uv">
-    访问者：
-    <span id="busuanzi_value_site_uv">0</span>
-    ，访问次数
-</span>
-<span id="busuanzi_container_site_pv">
-    <span id="busuanzi_value_site_pv">0</span>
-</span>
-
-
-
     </div>
-
 </footer>
 
 
@@ -917,6 +908,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     
+    
+
     
 
 

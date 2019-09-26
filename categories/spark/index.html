@@ -78,15 +78,13 @@
     
     
     
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
 
 
 <link rel="stylesheet" href="/css/style.css">
-
-
-
-
-
-
 
 </head>
 <body class="is-2-column">
@@ -180,21 +178,6 @@
             <h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p>
         </div>
 
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
-
         
         
         <div class="level is-mobile">
@@ -250,21 +233,6 @@
             <p>在实际开发中，免不了要涉及到对数据分组、实时数据和历史数据匹配、处理后的结果需要保存到其它系统（ES,Redis,Mysql等）等，这里是对这三种情况简单实现的例子。</p>
         </div>
 
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
-
         
         
         <div class="level is-mobile">
@@ -319,21 +287,6 @@
         <div class="content">
             <p>SparkStreaming是基于时间分片的近实时处理组件，比如需要实时对日志进行词频统计，通常是使用reduceByKey来处理，这样处理的结果是每一个时间片段的词频统计，例如第n个时间片的处理结果是[hello:3, world:5]，第n+1个时间片的处理结果是[hello:2, world:2]，但是这并不是我们期望的结果，我们期望得到的结果是不断累积各个时间片的词频，如上面的例子所希望的结果应该是[hello:5, world:7]。</p>
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         
@@ -391,21 +344,6 @@
 <p>首先，最基本的当然是我们可以配置多个路径（用逗号分隔）到多个磁盘上增加整体IO带宽，这个大家都知道。</p>
         </div>
 
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
-
         
         
         <div class="level is-mobile">
@@ -461,21 +399,6 @@
             <p>调度相关的参数设置，大多数内容都很直白，其实无须过多的额外解释，不过基于这些参数的常用性（大概会是你针对自己的集群第一步就会配置的参数），这里多少就其内部机制做一些解释。</p>
         </div>
 
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
-
         
         
         <div class="level is-mobile">
@@ -530,21 +453,6 @@
         <div class="content">
             <p>Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Manager在文件读写效率方面的问题而实现的Sort Base的Shuffle Manager。</p>
         </div>
-
-
-
-        <div class="level is-size-7 has-text-grey">
-                <div class="level-left">
-                        <i class="far fa-eye"></i>
-                        <span>&nbsp;</span>
-                        <span id="busuanzi_container_page_pv" style="display: inline;">
-                                <span id="busuanzi_value_page_pv">0</span>
-                        </span>
-                </div>
-        </div>
-
-
-
 
         
         
@@ -1055,7 +963,6 @@
         </div>
     </section>
     <footer class="footer">
-
     <div class="container">
         <div class="level">
             <div class="level-start has-text-centered-mobile">
@@ -1068,6 +975,22 @@
                 &copy; 2019 Forway&nbsp;
                 Recording -- 文章如有错误，请指出！
                 
+                <br>
+
+		<!-- 修改访问统计量
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users	
+                </span>
+		-->
+
+		<span id="busuanzi_container_site_uv">
+		  本站访客数 <span id="busuanzi_value_site_uv"></span> 人次，
+		</span>
+		<span id="busuanzi_container_site_pv">
+			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span>
+
+                
                 </p>
             </div>
             <div class="level-end">
@@ -1075,19 +998,7 @@
             </div>
         </div>
 
-<span id="busuanzi_container_site_uv">
-    访问者：
-    <span id="busuanzi_value_site_uv">0</span>
-    ，访问次数
-</span>
-<span id="busuanzi_container_site_pv">
-    <span id="busuanzi_value_site_pv">0</span>
-</span>
-
-
-
     </div>
-
 </footer>
 
 
@@ -1192,6 +1103,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     
+    
+
     
 
 
