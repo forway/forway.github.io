@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>elasticsearch-集群安装 - Recorder</title>
+<title>编程机器人游戏攻略 - Recorder</title>
 
 
-    <meta name="description" content="这里假如有两个节点：node-1、node-2配置：elasticsearch.yml">
-<meta name="keywords" content="elasticsearch">
+    <meta name="description" content="这里给程序猿们推荐一款和编程有关的小游戏：编程机器人或点灯机器人，个人觉得非常不错，玩这个游戏的关键是找出相似路线，把相似路线封装成方法不断调用，下面是不同关卡的攻略，哪位高手有更好的方法，欢迎指教。">
+<meta name="keywords" content="game">
 <meta property="og:type" content="article">
-<meta property="og:title" content="elasticsearch-集群安装">
-<meta property="og:url" content="http://yoursite.com/2019/09/24/elesticsearch-集群安装/index.html">
+<meta property="og:title" content="编程机器人游戏攻略">
+<meta property="og:url" content="http://yoursite.com/2019/12/28/game-编程机器人游戏攻略/index.html">
 <meta property="og:site_name" content="Recorder">
-<meta property="og:description" content="这里假如有两个节点：node-1、node-2配置：elasticsearch.yml">
+<meta property="og:description" content="这里给程序猿们推荐一款和编程有关的小游戏：编程机器人或点灯机器人，个人觉得非常不错，玩这个游戏的关键是找出相似路线，把相似路线封装成方法不断调用，下面是不同关卡的攻略，哪位高手有更好的方法，欢迎指教。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="og:updated_time" content="2016-08-18T15:34:10.673Z">
+<meta property="og:updated_time" content="2016-08-06T03:00:56.651Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="elasticsearch-集群安装">
-<meta name="twitter:description" content="这里假如有两个节点：node-1、node-2配置：elasticsearch.yml">
+<meta name="twitter:title" content="编程机器人游戏攻略">
+<meta name="twitter:description" content="这里给程序猿们推荐一款和编程有关的小游戏：编程机器人或点灯机器人，个人觉得非常不错，玩这个游戏的关键是找出相似路线，把相似路线封装成方法不断调用，下面是不同关卡的攻略，哪位高手有更好的方法，欢迎指教。">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
 
@@ -94,7 +94,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/og_image.png" alt="elasticsearch-集群安装" height="28">
+                <img src="/images/og_image.png" alt="编程机器人游戏攻略" height="28">
             
             </a>
         </div>
@@ -141,17 +141,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-24T07:15:23.712Z">2019-09-24</time>
+                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.004Z">2019-12-28</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/elasticsearch/">elasticsearch</a>
+                <a class="has-link-grey -link" href="/categories/game/">game</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    a minute read (About 184 words)
+                    a few seconds read (About 101 words)
                 </span>
                 
                 
@@ -160,23 +160,33 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                elasticsearch-集群安装
+                编程机器人游戏攻略
             
         </h1>
         <div class="content">
-            <p>这里假如有两个节点：node-1、node-2<br>配置：elasticsearch.yml</p>
+            <p>这里给程序猿们推荐一款和编程有关的小游戏：编程机器人或点灯机器人，个人觉得非常不错，玩这个游戏的关键是找出相似路线，把相似路线封装成方法不断调用，下面是不同关卡的攻略，哪位高手有更好的方法，欢迎指教。</p>
 <a id="more"></a> 
 
-<p>node-1:</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: liang</span><br><span class="line">node.name: node-1</span><br><span class="line">bootstrap.mlockall: true</span><br><span class="line">network.host: master</span><br><span class="line">network.publish_host: master</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;slave1&quot;]</span><br><span class="line">path.data: /usr/local/install_soft/elasticsearch-2.3.4/data</span><br><span class="line">path.logs: /usr/local/install_soft/elasticsearch-2.3.4/logs</span><br></pre></td></tr></table></figure>
+<img src="/images/game/game-1.jpg">
 
-<p>node-2:</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: liang</span><br><span class="line">node.name: node-2</span><br><span class="line">bootstrap.mlockall: true</span><br><span class="line">network.host: slave1</span><br><span class="line">network.publish_host: slave1</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;master&quot;]</span><br><span class="line">path.data: /usr/local/install_soft/elasticsearch-2.3.4/data</span><br><span class="line">path.logs: /usr/local/install_soft/elasticsearch-2.3.4/logs</span><br></pre></td></tr></table></figure>
+<img src="/images/game/game-2.jpg">
 
-<p>注意：<br>1、所有的配置前面空一个空字符<br>2、配置格式  key: value，value前面空一个空字符<br>如：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: sbt_general_app</span><br></pre></td></tr></table></figure>
+<img src="/images/game/game-3.jpg">
 
-<p><strong>扩展:</strong><br>只需要修改discovery.zen.ping.unicast.hosts属性，其内的值不需要是全部运行节点的ip，只需要任意一台运行中的IP即可</p>
+<img src="/images/game/game-4.jpg">
+
+<img src="/images/game/game-5.jpg">
+
+<img src="/images/game/game-6.jpg">
+
+<img src="/images/game/game-7.jpg">
+
+<img src="/images/game/game-8.jpg">
+
+<img src="/images/game/game-9.jpg">
+
+
+
 
         </div>
 
@@ -185,7 +195,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/elasticsearch/">elasticsearch</a>
+                    <a class="has-link-grey -link" href="/tags/game/">game</a>
                 </div>
             </div>
         </div>
@@ -213,16 +223,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/09/24/flume-拦截器详解/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/12/28/hello-world/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">flume-拦截器详解</span>
+                <span class="level-item">Hello World</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/09/24/hello-world/">
-                <span class="level-item">Hello World</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/28/flume-拦截器详解/">
+                <span class="level-item">flume-拦截器详解</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -241,7 +251,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 	var gitment = new Gitment({
-		id: 'b8a6ae38c1c4231252fa1301f1e38aa0',
+		id: '8eb4509729e507224324eaf1796e5ae2',
 		owner: 'forway',
 		repo: 'comment',
 		oauth: {
@@ -453,26 +463,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+            <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
                 </p>
@@ -480,8 +471,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.034Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -491,7 +482,26 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+            <a href="/2019/12/28/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
                 </p>
@@ -499,8 +509,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.027Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -510,7 +520,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-storage-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
                 </p>
@@ -518,8 +528,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.024Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -529,7 +539,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-schedule-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
                 </p>
@@ -537,8 +547,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.018Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -653,12 +663,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/09/">
                 <span class="level-start">
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -746,7 +767,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/og_image.png" alt="elasticsearch-集群安装" height="28">
+                    <img src="/images/og_image.png" alt="编程机器人游戏攻略" height="28">
                 
                 </a>
                 <p class="is-size-7">

@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>linux-常用命令 - Recorder</title>
+<title>spark-压缩和序列化相关 - Recorder</title>
 
 
-    <meta name="description" content="1、查找文件 12find / -name httpd.conffind /etc -name &amp;apos;*srm*&amp;apos;">
-<meta name="keywords" content="linux">
+    <meta name="description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
+<meta name="keywords" content="spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux-常用命令">
-<meta property="og:url" content="http://yoursite.com/2019/09/24/linux-常用命令/index.html">
+<meta property="og:title" content="spark-压缩和序列化相关">
+<meta property="og:url" content="http://yoursite.com/2019/12/28/spark-压缩和序列化相关/index.html">
 <meta property="og:site_name" content="Recorder">
-<meta property="og:description" content="1、查找文件 12find / -name httpd.conffind /etc -name &amp;apos;*srm*&amp;apos;">
+<meta property="og:description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="og:updated_time" content="2016-08-18T15:34:38.567Z">
+<meta property="og:updated_time" content="2016-08-04T13:17:28.909Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux-常用命令">
-<meta name="twitter:description" content="1、查找文件 12find / -name httpd.conffind /etc -name &amp;apos;*srm*&amp;apos;">
+<meta name="twitter:title" content="spark-压缩和序列化相关">
+<meta name="twitter:description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
 
@@ -94,7 +94,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/og_image.png" alt="linux-常用命令" height="28">
+                <img src="/images/og_image.png" alt="spark-压缩和序列化相关" height="28">
             
             </a>
         </div>
@@ -141,17 +141,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-24T07:15:23.719Z">2019-09-24</time>
+                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 minutes read (About 2114 words)
+                    9 minutes read (About 1384 words)
                 </span>
                 
                 
@@ -160,70 +160,26 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                linux-常用命令
+                spark-压缩和序列化相关
             
         </h1>
         <div class="content">
-            <p><strong>1、查找文件</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name httpd.conf</span><br><span class="line">find /etc -name &apos;*srm*&apos;</span><br></pre></td></tr></table></figure>
-
+            <h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p>
 <a id="more"></a> 
-
-<p><strong>2、设置自动任务</strong><br>系统级别：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/crontab</span><br><span class="line">0 1 * * * sh /a.sh</span><br></pre></td></tr></table></figure>
-
-<p>用户级别：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">crontab -e -u root</span><br><span class="line">0 1 * * * sh /a.sh</span><br></pre></td></tr></table></figure>
-
-<p>检查开机启动：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --list crond</span><br><span class="line">crontab -l -u user</span><br></pre></td></tr></table></figure>
-
-<p>时间任务格式：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * sh /home/hadoop/test2/start_offline.sh</span><br><span class="line">0 1 * * * sh /home/hadoop/test2/start_offline.sh</span><br></pre></td></tr></table></figure>
-
-<p><strong>3、文本替换</strong></p>
-<p>vi/vim 中可以使用 ：s 命令来替换字符串。该命令有很多种不同细节使用方法，可以实现复杂的功能，记录几种在此，方便以后查询。 </p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">　　：s/vivian/sky/ 替换当前行第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：s/vivian/sky/g 替换当前行所有 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：n，$s/vivian/sky/ 替换第 n 行开始到最后一行中每一行的第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：n，$s/vivian/sky/g 替换第 n 行开始到最后一行中每一行所有 vivian 为 sky</span><br></pre></td></tr></table></figure>
-
-<p>　　n 为数字，若 n 为 .，表示从当前行开始到最后一行 </p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　：%s/vivian/sky/（等同于 ：g/vivian/s//sky/） 替换每一行的第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：%s/vivian/sky/g（等同于 ：g/vivian/s//sky/g） 替换每一行中所有 vivian 为 sky</span><br></pre></td></tr></table></figure>
-
-<p>　　可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　：s#vivian/#sky/# 替换当前行第一个 vivian/ 为 sky/ </span><br><span class="line">　 </span><br><span class="line">　　：%s+/oradata/apras/+/user01/apras1+ （使用+ 来 替换 / ）： /oradata/apras/替换成/user01/apras1/</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　1.：s/vivian/sky/ 替换当前行第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：s/vivian/sky/g 替换当前行所有 vivian 为 sky</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">　　2. ：n，$s/vivian/sky/ 替换第 n 行开始到最后一行中每一行的第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：n，$s/vivian/sky/g 替换第 n 行开始到最后一行中每一行所有 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　（n 为数字，若 n 为 .，表示从当前行开始到最后一行）</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　3. ：%s/vivian/sky/（等同于 ：g/vivian/s//sky/） 替换每一行的第一个 vivian 为 sky </span><br><span class="line">　 </span><br><span class="line">　　：%s/vivian/sky/g（等同于 ：g/vivian/s//sky/g） 替换每一行中所有 vivian 为 sky</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　4. 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</span><br><span class="line">　 </span><br><span class="line">　　：s#vivian/#sky/# 替换当前行第一个 vivian/ 为 sky/</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">　　5. 删除文本中的^M </span><br><span class="line">　 </span><br><span class="line">　　问题描述：对于换行，window下用回车换行（0A0D）来表示，linux下是回车（0A）来表示。这样，将window上的文件拷到unix上用时，</span><br><span class="line">总会有个^M.请写个用在unix下的过滤windows文件的换行符（0D）的shell或c程序。 </span><br><span class="line">　 </span><br><span class="line">　　。 使用命令：cat filename1 | tr -d “^V^M” &gt; newfile； </span><br><span class="line">　 </span><br><span class="line">　　。 使用命令：sed -e “s/^V^M//” filename &gt; outputfilename.需要注意的是在1、2两种方法中，^V和^M指的是Ctrl+V和Ctrl+M.你必须要手工进行输入，而不是粘贴。 </span><br><span class="line">　 </span><br><span class="line">　　。 在vi中处理：首先使用vi打开文件，然后按ESC键，接着输入命令：%s/^V^M//. </span><br><span class="line">　 </span><br><span class="line">　　。 ：%s/^M$//g </span><br><span class="line">　 </span><br><span class="line">　　如果上述方法无用，则正确的解决办法是： [Page]</span><br><span class="line">　 </span><br><span class="line">　　。 tr -d \&quot;\\r\&quot; &lt; src &gt;dest </span><br><span class="line">　 </span><br><span class="line">　　。 tr -d \&quot;\\015\&quot; dest </span><br><span class="line">　 </span><br><span class="line">　　。 strings A&gt;B</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">6. 替换确认</span><br><span class="line">我们有很多时候会需要某个字符(串)在文章中某些位置出现时被替换，而其它位置不被替换的有选择的操作，这就需要用户来进行确认，vi的查找替换同样支持</span><br><span class="line">例如</span><br><span class="line">：s/vivian/sky/g 替换当前行所有 vivian 为 sky </span><br><span class="line">在命令后面加上一个字母c就可以实现，即：s/vivian/sky/gc</span><br><span class="line">顾名思意，c是confirm的缩写</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">　　7. 其它</span><br><span class="line">　 </span><br><span class="line">　　利用 ：s 命令可以实现字符串的替换。具体的用法包括： </span><br><span class="line">　 </span><br><span class="line">　　：s/str1/str2/ 用字符串 str2 替换行中首次出现的字符串 str1 </span><br><span class="line">　 </span><br><span class="line">　　：s/str1/str2/g 用字符串 str2 替换行中所有出现的字符串 str1 </span><br><span class="line">　 </span><br><span class="line">　　：。，$ s/str1/str2/g 用字符串 str2 替换正文当前行到末尾所有出现的字符串 str1 </span><br><span class="line">　 </span><br><span class="line">　　：1，$ s/str1/str2/g 用字符串 str2 替换正文中所有出现的字符串 str1 </span><br><span class="line">　 </span><br><span class="line">　　：g/str1/s//str2/g 功能同上</span><br></pre></td></tr></table></figure>
-
-<p>　　从上述替换命令可以看到：g 放在命令末尾，表示对搜索字符串的每次出现进行替换；不加 g，表示只对搜索<br>　　字符串的首次出现进行替换；g 放在命令开头，表示对正文中所有包含搜索字符串的行进行替换操作</p>
-<p><strong>4、用户线程数设置</strong></p>
-<p>Linux对于每个用户，系统限制其最大进程数。为提高性能，可以根据设备资源情况，设置各linux 用户的最大进程数<br>可以用ulimit -a 来显示当前的各种用户进程限制。<br>下面我把某linux用户的最大进程数设为10000个：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ulimit -u 10240</span><br><span class="line">对于需要做许多 socket 连接并使它们处于打开状态的 Java 应用程序而言，</span><br><span class="line">最好通过使用 ulimit -n xx 修改每个进程可打开的文件数，缺省值是 1024。</span><br><span class="line">ulimit -n 4096 将每个进程可以打开的文件数目加大到4096，缺省为1024</span><br><span class="line">其他建议设置成无限制（unlimited）的一些重要设置是：</span><br><span class="line">数据段长度：ulimit -d unlimited</span><br><span class="line">最大内存大小：ulimit -m unlimited</span><br><span class="line">堆栈大小：ulimit -s unlimited</span><br><span class="line">CPU 时间：ulimit -t unlimited</span><br><span class="line">虚拟内存：ulimit -v unlimited</span><br></pre></td></tr></table></figure>
-
-<p>　　<br>     暂时地，适用于通过 ulimit 命令登录 shell 会话期间。<br>     永久地，通过将一个相应的 ulimit 语句添加到由登录 shell 读取的文件中， 即特定于 shell 的用户资源文件，如：<br>1)、解除 Linux 系统的最大进程数和最大文件打开数限制：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> vi /etc/security/limits.conf</span><br><span class="line"> # 添加如下的行</span><br><span class="line"> * soft noproc 11000</span><br><span class="line"> * hard noproc 11000</span><br><span class="line"> * soft nofile 4100</span><br><span class="line"> * hard nofile 4100</span><br><span class="line">说明：* 代表针对所有用户，noproc 是代表最大进程数，nofile 是代表最大文件打开数</span><br></pre></td></tr></table></figure>
-
-<p>2)、让 SSH 接受 Login 程式的登入，方便在 ssh 客户端查看 ulimit -a 资源限制：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a、vi /etc/ssh/sshd_config</span><br><span class="line">           把 UserLogin 的值改为 yes，并把 # 注释去掉</span><br><span class="line">      b、重启 sshd 服务：</span><br><span class="line">            /etc/init.d/sshd restart</span><br></pre></td></tr></table></figure>
-
-<p>3)、修改所有 linux 用户的环境变量文件：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line">   ulimit -u 10000</span><br><span class="line">   ulimit -n 4096</span><br><span class="line">   ulimit -d unlimited</span><br><span class="line">   ulimit -m unlimited</span><br><span class="line">   ulimit -s unlimited</span><br><span class="line">   ulimit -t unlimited</span><br><span class="line">   ulimit -v unlimited</span><br></pre></td></tr></table></figure>
-
-<p> 保存后运行#source /etc/profile 使其生效</p>
-<p>可以用ulimit -a 来显示当前的各种用户进程限制</p>
-<p>参数 描述<br>ulimited 不限制用户可以使用的资源，但本设置对可打开的最大文件数（max open files）<br>和可同时运行的最大进程数（max user processes）无效</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-a 列出所有当前资源极限</span><br><span class="line">-c 设置core文件的最大值.单位:blocks</span><br><span class="line">-d 设置一个进程的数据段的最大值.单位:kbytes</span><br><span class="line">-f Shell 创建文件的文件大小的最大值，单位：blocks</span><br><span class="line">-h 指定设置某个给定资源的硬极限。如果用户拥有 root 用户权限，可以增大硬极限。任何用户均可减少硬极限</span><br><span class="line">-l 可以锁住的物理内存的最大值</span><br><span class="line">-m 可以使用的常驻内存的最大值,单位：kbytes</span><br><span class="line">-n 每个进程可以同时打开的最大文件数</span><br><span class="line">-p 设置管道的最大值，单位为block，1block=512bytes</span><br><span class="line">-s 指定堆栈的最大值：单位：kbytes</span><br><span class="line">-S 指定为给定的资源设置软极限。软极限可增大到硬极限的值。如果 -H 和 -S 标志均未指定，极限适用于以上二者</span><br><span class="line">-t 指定每个进程所使用的秒数,单位：seconds</span><br><span class="line">-u 可以运行的最大并发进程数</span><br><span class="line">-v Shell可使用的最大的虚拟内存，单位：kbytes</span><br></pre></td></tr></table></figure>
-
+<p>序列化对于spark应用的性能来说,还是有很大影响的,在特定的数据格式的情况下,KryoSerializer的性能可以达到JavaSerializer的10倍以上,当然放到整个Spark程序中来考量,比重就没有那么大了,但是以Wordcount为例，通常也很容易达到30%以上的性能提升。而对于一些Int之类的基本类型数据，性能的提升就几乎可以忽略了。KryoSerializer依赖Twitter的Chill库来实现，相对于JavaSerializer，主要的问题在于不是所有的Java Serializable对象都能支持。</p>
+<p>需要注意的是，这里可配的Serializer针对的对象是Shuffle数据，以及RDD Cache等场合，而Spark Task的序列化是通过spark.closure.serializer来配置，但是目前只支持JavaSerializer，所以等于没法配置啦。</p>
+<h4 id="2-spark-rdd-compress"><a href="#2-spark-rdd-compress" class="headerlink" title="(2) spark.rdd.compress"></a>(2) spark.rdd.compress</h4><p>这个参数决定了RDD Cache的过程中，RDD数据在序列化之后是否进一步进行压缩再储存到内存或磁盘上。当然是为了进一步减小Cache数据的尺寸，对于Cache在磁盘上而言，绝对大小大概没有太大关系，主要是考虑Disk的IO带宽。而对于Cache在内存中，那主要就是考虑尺寸的影响，是否能够Cache更多的数据，是否能减小Cache数据对GC造成的压力等。</p>
+<p>这两者，前者通常不会是主要问题，尤其是在RDD Cache本身的目的就是追求速度，减少重算步骤，用IO换CPU的情况下。而后者，GC问题当然是需要考量的，数据量小，占用空间少，GC的问题大概会减轻，但是是否真的需要走到RDD Cache压缩这一步，或许用其它方式来解决可能更加有效。</p>
+<p>所以这个值默认是关闭的，但是如果在磁盘IO的确成为问题或者GC问题真的没有其它更好的解决办法的时候，可以考虑启用RDD压缩。</p>
+<h4 id="3-spark-broadcast-compress"><a href="#3-spark-broadcast-compress" class="headerlink" title="(3) spark.broadcast.compress"></a>(3) spark.broadcast.compress</h4><p>是否对Broadcast的数据进行压缩，默认值为True。</p>
+<p>Broadcast机制是用来减少运行每个Task时，所需要发送给TASK的RDD所使用到的相关数据的尺寸，一个Executor只需要在第一个Task启动时，获得一份Broadcast数据，之后的Task都从本地的BlockManager中获取相关数据。在1.1最新版本的代码中，RDD本身也改为以Broadcast的形式发送给Executor（之前的实现RDD本身是随每个任务发送的），因此基本上不太需要显式的决定哪些数据需要broadcast了。</p>
+<p>因为Broadcast的数据需要通过网络发送，而在Executor端又需要存储在本地BlockMananger中，加上最新的实现，默认RDD通过Boradcast机制发送，因此大大增加了Broadcast变量的比重，所以通过压缩减小尺寸，来减少网络传输开销和内存占用，通常都是有利于提高整体性能的。</p>
+<p>什么情况可能不压缩更好呢，大致上个人觉得同样还是在网络带宽和内存不是问题的时候，如果Driver端CPU资源很成问题（毕竟压缩的动作基本都在Driver端执行），那或许有调整的必要。</p>
+<h4 id="4-spark-io-compression-codec"><a href="#4-spark-io-compression-codec" class="headerlink" title="(4) spark.io.compression.codec"></a>(4) spark.io.compression.codec</h4><p>RDD Cache和Shuffle数据压缩所采用的算法Codec，默认值曾经是使用LZF作为默认Codec，最近因为LZF的内存开销的问题，默认的Codec已经改为Snappy。</p>
+<p>LZF和Snappy相比较，前者压缩率比较高（当然要看具体数据内容了，通常要高20%左右），但是除了内存问题以外，CPU代价也大一些（大概也差20%~50%？）</p>
+<p>在用于Shuffle数据的场合下，内存方面，应该主要是在使用HashShuffleManager的时候有可能成为问题，因为如果Reduce分区数量巨大，需要同时打开大量的压缩数据流用于写文件，进而在Codec方面需要大量的buffer。但是如果使用SortShuffleManager，由于shuffle文件数量大大减少，不会产生大量的压缩数据流，所以内存开销大概不会成为主要问题。</p>
+<p>剩下的就是CPU和压缩率的权衡取舍，和前面一样，取决于CPU/网络/磁盘的能力和负载，个人认为CPU通常更容易成为瓶颈。所以要调整性能，要不不压缩，要不使用Snappy可能性大一些？</p>
+<p>对于RDD Cache的场合来说，绝大多数场合都是内存操作或者本地IO，所以CPU负载的问题可能比IO的问题更加突出，这也是为什么 spark.rdd.compress 本身默认为不压缩，如果要压缩，大概也是Snappy合适一些？</p>
 
         </div>
 
@@ -232,7 +188,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/linux/">linux</a>
+                    <a class="has-link-grey -link" href="/tags/spark/">spark</a>
                 </div>
             </div>
         </div>
@@ -260,16 +216,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/09/24/spark-schedule-optimization/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/12/28/spark-编程常用例子（Java版）-1/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">spark-schedule性能优化</span>
+                <span class="level-item">spark-编程常用例子（Java版）-1</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/09/24/java-AES加解密和RSA加解密/">
-                <span class="level-item">java-AES加解密和RSA加解密</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/28/spark-updateStateByKey状态更新/">
+                <span class="level-item">spark-updateStateByKey状态更新</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -288,7 +244,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 	var gitment = new Gitment({
-		id: '73dca104108628f8346eb35fc279399c',
+		id: 'c9d8ddaa91ee1f985a42a588866b0696',
 		owner: 'forway',
 		repo: 'comment',
 		oauth: {
@@ -500,26 +456,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+            <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
                 </p>
@@ -527,8 +464,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.034Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -538,7 +475,26 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+            <a href="/2019/12/28/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
                 </p>
@@ -546,8 +502,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.027Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -557,7 +513,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-storage-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
                 </p>
@@ -565,8 +521,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.024Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -576,7 +532,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-schedule-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
                 </p>
@@ -584,8 +540,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.018Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -700,12 +656,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/09/">
                 <span class="level-start">
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -793,7 +760,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/og_image.png" alt="linux-常用命令" height="28">
+                    <img src="/images/og_image.png" alt="spark-压缩和序列化相关" height="28">
                 
                 </a>
                 <p class="is-size-7">

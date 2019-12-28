@@ -7,22 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>spark-压缩和序列化相关 - Recorder</title>
+<title>Hello World - Recorder</title>
 
 
-    <meta name="description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
-<meta name="keywords" content="spark">
+    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spark-压缩和序列化相关">
-<meta property="og:url" content="http://yoursite.com/2019/09/24/spark-压缩和序列化相关/index.html">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://yoursite.com/2019/12/28/hello-world/index.html">
 <meta property="og:site_name" content="Recorder">
-<meta property="og:description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="og:updated_time" content="2016-08-04T13:17:28.909Z">
+<meta property="og:updated_time" content="2019-09-24T06:50:56.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="spark-压缩和序列化相关">
-<meta name="twitter:description" content="压缩和序列化性能优化参数设置(1) spark.serializer默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。">
+<meta name="twitter:title" content="Hello World">
+<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
 
@@ -94,7 +93,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/og_image.png" alt="spark-压缩和序列化相关" height="28">
+                <img src="/images/og_image.png" alt="Hello World" height="28">
             
             </a>
         </div>
@@ -141,17 +140,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                </div>
+                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.008Z">2019-12-28</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1384 words)
+                    a minute read (About 121 words)
                 </span>
                 
                 
@@ -160,38 +155,26 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                spark-压缩和序列化相关
+                Hello World
             
         </h1>
         <div class="content">
-            <h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p>
-<a id="more"></a> 
-<p>序列化对于spark应用的性能来说,还是有很大影响的,在特定的数据格式的情况下,KryoSerializer的性能可以达到JavaSerializer的10倍以上,当然放到整个Spark程序中来考量,比重就没有那么大了,但是以Wordcount为例，通常也很容易达到30%以上的性能提升。而对于一些Int之类的基本类型数据，性能的提升就几乎可以忽略了。KryoSerializer依赖Twitter的Chill库来实现，相对于JavaSerializer，主要的问题在于不是所有的Java Serializable对象都能支持。</p>
-<p>需要注意的是，这里可配的Serializer针对的对象是Shuffle数据，以及RDD Cache等场合，而Spark Task的序列化是通过spark.closure.serializer来配置，但是目前只支持JavaSerializer，所以等于没法配置啦。</p>
-<h4 id="2-spark-rdd-compress"><a href="#2-spark-rdd-compress" class="headerlink" title="(2) spark.rdd.compress"></a>(2) spark.rdd.compress</h4><p>这个参数决定了RDD Cache的过程中，RDD数据在序列化之后是否进一步进行压缩再储存到内存或磁盘上。当然是为了进一步减小Cache数据的尺寸，对于Cache在磁盘上而言，绝对大小大概没有太大关系，主要是考虑Disk的IO带宽。而对于Cache在内存中，那主要就是考虑尺寸的影响，是否能够Cache更多的数据，是否能减小Cache数据对GC造成的压力等。</p>
-<p>这两者，前者通常不会是主要问题，尤其是在RDD Cache本身的目的就是追求速度，减少重算步骤，用IO换CPU的情况下。而后者，GC问题当然是需要考量的，数据量小，占用空间少，GC的问题大概会减轻，但是是否真的需要走到RDD Cache压缩这一步，或许用其它方式来解决可能更加有效。</p>
-<p>所以这个值默认是关闭的，但是如果在磁盘IO的确成为问题或者GC问题真的没有其它更好的解决办法的时候，可以考虑启用RDD压缩。</p>
-<h4 id="3-spark-broadcast-compress"><a href="#3-spark-broadcast-compress" class="headerlink" title="(3) spark.broadcast.compress"></a>(3) spark.broadcast.compress</h4><p>是否对Broadcast的数据进行压缩，默认值为True。</p>
-<p>Broadcast机制是用来减少运行每个Task时，所需要发送给TASK的RDD所使用到的相关数据的尺寸，一个Executor只需要在第一个Task启动时，获得一份Broadcast数据，之后的Task都从本地的BlockManager中获取相关数据。在1.1最新版本的代码中，RDD本身也改为以Broadcast的形式发送给Executor（之前的实现RDD本身是随每个任务发送的），因此基本上不太需要显式的决定哪些数据需要broadcast了。</p>
-<p>因为Broadcast的数据需要通过网络发送，而在Executor端又需要存储在本地BlockMananger中，加上最新的实现，默认RDD通过Boradcast机制发送，因此大大增加了Broadcast变量的比重，所以通过压缩减小尺寸，来减少网络传输开销和内存占用，通常都是有利于提高整体性能的。</p>
-<p>什么情况可能不压缩更好呢，大致上个人觉得同样还是在网络带宽和内存不是问题的时候，如果Driver端CPU资源很成问题（毕竟压缩的动作基本都在Driver端执行），那或许有调整的必要。</p>
-<h4 id="4-spark-io-compression-codec"><a href="#4-spark-io-compression-codec" class="headerlink" title="(4) spark.io.compression.codec"></a>(4) spark.io.compression.codec</h4><p>RDD Cache和Shuffle数据压缩所采用的算法Codec，默认值曾经是使用LZF作为默认Codec，最近因为LZF的内存开销的问题，默认的Codec已经改为Snappy。</p>
-<p>LZF和Snappy相比较，前者压缩率比较高（当然要看具体数据内容了，通常要高20%左右），但是除了内存问题以外，CPU代价也大一些（大概也差20%~50%？）</p>
-<p>在用于Shuffle数据的场合下，内存方面，应该主要是在使用HashShuffleManager的时候有可能成为问题，因为如果Reduce分区数量巨大，需要同时打开大量的压缩数据流用于写文件，进而在Codec方面需要大量的buffer。但是如果使用SortShuffleManager，由于shuffle文件数量大大减少，不会产生大量的压缩数据流，所以内存开销大概不会成为主要问题。</p>
-<p>剩下的就是CPU和压缩率的权衡取舍，和前面一样，取决于CPU/网络/磁盘的能力和负载，个人认为CPU通常更容易成为瓶颈。所以要调整性能，要不不压缩，要不使用Snappy可能性大一些？</p>
-<p>对于RDD Cache的场合来说，绝大多数场合都是内存操作或者本地IO，所以CPU负载的问题可能比IO的问题更加突出，这也是为什么 spark.rdd.compress 本身默认为不压缩，如果要压缩，大概也是Snappy合适一些？</p>
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="hljs-string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
         </div>
 
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/spark/">spark</a>
-                </div>
-            </div>
-        </div>
         
         
         
@@ -215,10 +198,17 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/12/28/java-AES加解密和RSA加解密/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">java-AES加解密和RSA加解密</span>
+            </a>
+        </div>
+        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/09/24/spark-编程常用例子（Java版）-1/">
-                <span class="level-item">spark-编程常用例子（Java版）-1</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/28/game-编程机器人游戏攻略/">
+                <span class="level-item">编程机器人游戏攻略</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -237,7 +227,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 	var gitment = new Gitment({
-		id: 'a88fd8eada558f2d1a39d61bf25e6cac',
+		id: '91357cae815605e654dec090d3450ead',
 		owner: 'forway',
 		repo: 'comment',
 		oauth: {
@@ -449,26 +439,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-压缩和序列化相关/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.731Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="media-left">
+            <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
                 </p>
@@ -476,8 +447,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.729Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.034Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -487,7 +458,26 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="media-left">
+            <a href="/2019/12/28/spark-压缩和序列化相关/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
                 </p>
@@ -495,8 +485,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.728Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.027Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -506,7 +496,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-storage-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-storage-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
                 </p>
@@ -514,8 +504,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.726Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.024Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -525,7 +515,7 @@
         
         <article class="media">
             
-            <a href="/2019/09/24/spark-schedule-optimization/" class="media-left">
+            <a href="/2019/12/28/spark-schedule-optimization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
                 </p>
@@ -533,8 +523,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-24T07:15:23.721Z">2019-09-24</time></div>
-                    <a href="/2019/09/24/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.018Z">2019-12-28</time></div>
+                    <a href="/2019/12/28/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a>
                     </p>
@@ -649,12 +639,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/09/">
                 <span class="level-start">
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -742,7 +743,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/og_image.png" alt="spark-压缩和序列化相关" height="28">
+                    <img src="/images/og_image.png" alt="Hello World" height="28">
                 
                 </a>
                 <p class="is-size-7">
