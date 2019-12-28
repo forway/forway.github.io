@@ -137,17 +137,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.034Z">2019-12-28</time>
+                <time class="level-item has-text-grey" datetime="2019-05-31T16:00:00.000Z">2019-06-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                <a class="has-link-grey -link" href="/categories/算法/">算法</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1350 words)
+                    15 minutes read (About 2228 words)
                 </span>
                 
                 
@@ -156,11 +156,12 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/28/spark-编程常用例子（Java版）-1/">spark-编程常用例子（Java版）-1</a>
+                <a class="has-link-black-ter" href="/2019/06/01/布隆过滤器/">布隆过滤器</a>
             
         </h1>
         <div class="content">
-            <p>在实际开发中，免不了要涉及到对数据分组、实时数据和历史数据匹配、处理后的结果需要保存到其它系统（ES,Redis,Mysql等）等，这里是对这三种情况简单实现的例子。</p>
+            <h4 id="算法背景"><a href="#算法背景" class="headerlink" title="算法背景"></a>算法背景</h4><hr>
+<p><strong>问题：</strong><br>在开发中，经常要判断一个元素是否在一个集合中。<br><strong>实现方案：</strong><br>编程中通常使用集合来存储所有元素，然后通过hash值来确定元素是否存在。<br>如：java中的HashMap、HashSet等。<br><strong>优点：</strong>快速准确<br><strong>缺点：</strong>耗费存储空间</p>
         </div>
 
         
@@ -168,7 +169,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/spark-编程常用例子（Java版）-1/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2019/06/01/布隆过滤器/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -192,17 +193,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time>
+                <time class="level-item has-text-grey" datetime="2019-04-30T16:00:00.000Z">2019-05-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1384 words)
+                    44 minutes read (About 6537 words)
                 </span>
                 
                 
@@ -211,11 +212,11 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/28/spark-压缩和序列化相关/">spark-压缩和序列化相关</a>
+                <a class="has-link-black-ter" href="/2019/05/01/简单之美/">简单之美</a>
             
         </h1>
         <div class="content">
-            <h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p>
+            <p>我们遇到问题时，时不时会谷歌或百度一下，谷歌或百度能在毫秒级时间内响应结果网页，我们不禁会想谷歌或百度是不是使用了什么特别复杂厉害的算法，才能到达如此的快速响应。我们先看看建立一个搜索引擎大致需要做这样的几件事：自动下载互联网上的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序。一个高质量的搜索引擎要实现这3件事都不容易，但是呢，搜索引擎的基本原理还是相对简单的。我们平时使用的计算机可以处理复杂的逻辑计算，但其底层采用的是最简单的二进制计数方法，它只有两个数字：0和1。二进制除了是一种计数方法外，它还可以表示逻辑的 “是” 与 “非”，这个特征在搜索引擎的索引中非常有用。布尔运算是针对二进制的，它很简单，可能没有比布尔运算更简单的运算了。搜索引擎的实现，从根本上就离不开布尔运算的框架。</p>
         </div>
 
         
@@ -223,7 +224,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/spark-压缩和序列化相关/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2019/05/01/简单之美/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -247,17 +248,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.027Z">2019-12-28</time>
+                <time class="level-item has-text-grey" datetime="2019-02-28T16:00:00.000Z">2019-03-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 minutes read (About 1110 words)
+                    21 minutes read (About 3116 words)
                 </span>
                 
                 
@@ -266,11 +267,11 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/28/spark-updateStateByKey状态更新/">spark-updateStateByKey状态更新</a>
+                <a class="has-link-black-ter" href="/2019/03/01/分而治之/">分而治之</a>
             
         </h1>
         <div class="content">
-            <p>SparkStreaming是基于时间分片的近实时处理组件，比如需要实时对日志进行词频统计，通常是使用reduceByKey来处理，这样处理的结果是每一个时间片段的词频统计，例如第n个时间片的处理结果是[hello:3, world:5]，第n+1个时间片的处理结果是[hello:2, world:2]，但是这并不是我们期望的结果，我们期望得到的结果是不断累积各个时间片的词频，如上面的例子所希望的结果应该是[hello:5, world:7]。</p>
+            <p>生活中经常看到跟排序相关的例子，如：微博中排名前10的热点话题，学校中考试平均成绩排名前3的班级，NBA中比赛胜率排名前8的球队等。排序可以让重点数据凸显出来，从而更容易得到关注。开发中，我们也常遇到排序的问题，如对一个集合a(1),a(2),a(3),…,a(N)进行排序，然后取出前10个最大值。</p>
         </div>
 
         
@@ -278,7 +279,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/spark-updateStateByKey状态更新/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2019/03/01/分而治之/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -302,17 +303,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.024Z">2019-12-28</time>
+                <time class="level-item has-text-grey" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1641 words)
+                    5 minutes read (About 703 words)
                 </span>
                 
                 
@@ -321,12 +322,12 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/28/spark-storage-optimization/">spark-storage性能优化</a>
+                <a class="has-link-black-ter" href="/2018/01/01/分类-朴素贝叶斯/">朴素贝叶斯</a>
             
         </h1>
         <div class="content">
-            <h3 id="storage性能优化参数设置"><a href="#storage性能优化参数设置" class="headerlink" title="storage性能优化参数设置"></a>storage性能优化参数设置</h3><h4 id="1-spark-local-dir"><a href="#1-spark-local-dir" class="headerlink" title="(1) spark.local.dir"></a>(1) spark.local.dir</h4><p>这个看起来很简单，就是Spark用于写中间数据，如RDD Cache，Shuffle，Spill等数据的位置，那么有什么可以注意的呢。</p>
-<p>首先，最基本的当然是我们可以配置多个路径（用逗号分隔）到多个磁盘上增加整体IO带宽，这个大家都知道。</p>
+            <h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><hr>
+<p>朴素贝叶斯概率研究的是条件概率，也就是研究的场景是在带有某些前提条件下，或者在某些背景条件的约束下发生的概率问题。</p>
         </div>
 
         
@@ -334,7 +335,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/spark-storage-optimization/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2018/01/01/分类-朴素贝叶斯/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -358,7 +359,289 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.018Z">2019-12-28</time>
+                <time class="level-item has-text-grey" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 minutes read (About 1464 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/01/01/回归-线性回归/">线性回归</a>
+            
+        </h1>
+        <div class="content">
+            <h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><hr>
+<p>线性回归是利用被称为线性回归方程的最小平方函数对一个或多个自变量和因变量之间关系建模的一个回归分析，且自变量和因变量的关系可用一条直线近似表示。</p>
+<ul>
+<li>一元线性回归<br>  只包含一个自变量和一个因变量</li>
+<li>多元线性回归<br>  两个或两个以上的自变量和一个因变量</li></ul>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/01/01/回归-线性回归/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-30T16:00:00.000Z">2017-10-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1758 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/10/01/单一职责原则/">单一职责原则</a>
+            
+        </h1>
+        <div class="content">
+            <p>单一职责原则(Single Pesponsibility Principle, SRP)是SOLID五大设计原则最容易被误解的一个。也许是名字的原因，很多程序员根据SRP这个名字想当然地认为这个原则是指：每个模块应该只做一件事。但这只是一个面向底层实现细节的设计原则，并不是SRP的全部。对于SRP的描述是：</p>
+<p><strong>任何一个软件模块都应该只对某一类行为者负责。</strong></p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/10/01/单一职责原则/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-30T16:00:00.000Z">2017-10-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 minutes read (About 1190 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/10/01/开闭原则/">开闭原则</a>
+            
+        </h1>
+        <div class="content">
+            <p>开闭原则(Open Closed Principle, OCP)是Bertrand Meyer在1988年提出的，该设计原则认为：</p>
+<p><strong>一个设计良好的计算机系统应该易于扩展（对扩展开放），同时抗拒修改（对修改关闭）。</strong></p>
+<p>其实这也是我们设计软件架构的根本目的。如果对于小小的需求改动，而需要大幅度地修改整个软件架构，这种牵一发而动全身的设计显然是要避免的。下面，我们通过一个案例来对开闭原则做一些说明。</p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/10/01/开闭原则/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-30T16:00:00.000Z">2017-10-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 974 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/10/01/接口隔离原则/">接口隔离原则</a>
+            
+        </h1>
+        <div class="content">
+            <p>接口隔离原则（Interface Segregation Principle，ISP）。ISP定义：<br><strong>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</strong></p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/10/01/接口隔离原则/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-30T16:00:00.000Z">2017-10-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes read (About 1006 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/10/01/里氏替换原则/">里氏替换原则</a>
+            
+        </h1>
+        <div class="content">
+            <p>里氏替换原则（Liskov Substitution Principle，LSP）是面向对象设计的基本原则之一。 里氏替换原则认为：<br><strong>任何基类（父类或接口）可以出现的地方，子类（实现类）一定可以出现。 LSP是继承复用的基石，只有当子类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而子类也能够在基类的基础上增加新的行为</strong></p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/10/01/里氏替换原则/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-05-31T16:00:00.000Z">2017-06-01</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/spark/">spark</a>
@@ -377,7 +660,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/28/spark-schedule-optimization/">spark-schedule性能优化</a>
+                <a class="has-link-black-ter" href="/2017/06/01/spark-schedule-optimization/">spark-schedule性能优化</a>
             
         </h1>
         <div class="content">
@@ -389,284 +672,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/spark-schedule-optimization/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.014Z">2019-12-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    14 minutes read (About 2114 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/28/linux-常用命令/">linux-常用命令</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>1、查找文件</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name httpd.conf</span><br><span class="line">find /etc -name &apos;*srm*&apos;</span><br></pre></td></tr></table></figure>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/linux-常用命令/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.011Z">2019-12-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    19 minutes read (About 2886 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/28/java-AES加解密和RSA加解密/">java-AES加解密和RSA加解密</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>AES加解密（对称加密算法）</strong><br>高级加密标准（英语：Advanced Encryption Standard，缩写：AES），是一种区块加密标准。这个标准用来替代原先的DES，已经被多方分析且广为全世界所使用。那么为什么原来的DES会被取代呢，原因就在于其使用56位密钥，比较容易被破解。而AES可以使用128、192、和256位密钥，并且用128位分组加密和解密数据，相对来说安全很多。</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/java-AES加解密和RSA加解密/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.004Z">2019-12-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/game/">game</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 101 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/28/game-编程机器人游戏攻略/">编程机器人游戏攻略</a>
-            
-        </h1>
-        <div class="content">
-            <p>这里给程序猿们推荐一款和编程有关的小游戏：编程机器人或点灯机器人，个人觉得非常不错，玩这个游戏的关键是找出相似路线，把相似路线封装成方法不断调用，下面是不同关卡的攻略，哪位高手有更好的方法，欢迎指教。</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/game-编程机器人游戏攻略/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.002Z">2019-12-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/flume/">flume</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    18 minutes read (About 2708 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/28/flume-拦截器详解/">flume-拦截器详解</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="拦截器介绍"><a href="#拦截器介绍" class="headerlink" title="拦截器介绍"></a>拦截器介绍</h3><p>一个拦截器的功能可以被概括为这个方法：<br>    public Event intercept(Event event);</p>
-<p>它传入一个event然后返回一个event。它可以不做任何事情；也就是说没有任何改变的event将被返回。通常来说，它用一些有用的方式来改变event的内容。如果返回null值，这个event就表示被丢弃了。</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/flume-拦截器详解/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-28T09:56:04.000Z">2019-12-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/elasticsearch/">elasticsearch</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 184 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/28/elesticsearch-集群安装/">elasticsearch-集群安装</a>
-            
-        </h1>
-        <div class="content">
-            <p>这里假如有两个节点：node-1、node-2<br>配置：elasticsearch.yml</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/28/elesticsearch-集群安装/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2017/06/01/spark-schedule-optimization/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -901,18 +907,18 @@
         
         <article class="media">
             
-            <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="media-left">
+            <a href="/2019/06/01/布隆过滤器/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-编程常用例子（Java版）-1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="布隆过滤器">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.034Z">2019-12-28</time></div>
-                    <a href="/2019/12/28/spark-编程常用例子（Java版）-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-编程常用例子（Java版）-1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T16:00:00.000Z">2019-06-01</time></div>
+                    <a href="/2019/06/01/布隆过滤器/" class="title has-link-black-ter is-size-6 has-text-weight-normal">布隆过滤器</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a>
                     </p>
                 </div>
             </div>
@@ -920,18 +926,18 @@
         
         <article class="media">
             
-            <a href="/2019/12/28/spark-压缩和序列化相关/" class="media-left">
+            <a href="/2019/05/01/简单之美/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-压缩和序列化相关">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="简单之美">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.030Z">2019-12-28</time></div>
-                    <a href="/2019/12/28/spark-压缩和序列化相关/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-压缩和序列化相关</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-30T16:00:00.000Z">2019-05-01</time></div>
+                    <a href="/2019/05/01/简单之美/" class="title has-link-black-ter is-size-6 has-text-weight-normal">简单之美</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
                     </p>
                 </div>
             </div>
@@ -939,18 +945,18 @@
         
         <article class="media">
             
-            <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="media-left">
+            <a href="/2019/03/01/分而治之/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-updateStateByKey状态更新">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="分而治之">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.027Z">2019-12-28</time></div>
-                    <a href="/2019/12/28/spark-updateStateByKey状态更新/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-updateStateByKey状态更新</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-28T16:00:00.000Z">2019-03-01</time></div>
+                    <a href="/2019/03/01/分而治之/" class="title has-link-black-ter is-size-6 has-text-weight-normal">分而治之</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
                     </p>
                 </div>
             </div>
@@ -958,18 +964,18 @@
         
         <article class="media">
             
-            <a href="/2019/12/28/spark-storage-optimization/" class="media-left">
+            <a href="/2018/01/01/分类-朴素贝叶斯/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-storage性能优化">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="朴素贝叶斯">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.024Z">2019-12-28</time></div>
-                    <a href="/2019/12/28/spark-storage-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-storage性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time></div>
+                    <a href="/2018/01/01/分类-朴素贝叶斯/" class="title has-link-black-ter is-size-6 has-text-weight-normal">朴素贝叶斯</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                        <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
                     </p>
                 </div>
             </div>
@@ -977,18 +983,18 @@
         
         <article class="media">
             
-            <a href="/2019/12/28/spark-schedule-optimization/" class="media-left">
+            <a href="/2018/01/01/回归-线性回归/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="spark-schedule性能优化">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="线性回归">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-28T09:56:04.018Z">2019-12-28</time></div>
-                    <a href="/2019/12/28/spark-schedule-optimization/" class="title has-link-black-ter is-size-6 has-text-weight-normal">spark-schedule性能优化</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time></div>
+                    <a href="/2018/01/01/回归-线性回归/" class="title has-link-black-ter is-size-6 has-text-weight-normal">线性回归</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                        <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
                     </p>
                 </div>
             </div>
@@ -1101,20 +1107,9 @@
         <ul class="menu-list">
         
         <li>
-            <a class="level is-marginless" href="/archives/2019/12/">
+            <a class="level is-marginless" href="/archives/2019/06/">
                 <span class="level-start">
-                    <span class="level-item">December 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">10</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/09/">
-                <span class="level-start">
-                    <span class="level-item">September 2019</span>
+                    <span class="level-item">June 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -1126,17 +1121,6 @@
             <a class="level is-marginless" href="/archives/2019/05/">
                 <span class="level-start">
                     <span class="level-item">May 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/04/">
-                <span class="level-start">
-                    <span class="level-item">April 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -1156,20 +1140,9 @@
         </li>
         
         <li>
-            <a class="level is-marginless" href="/archives/2018/10/">
+            <a class="level is-marginless" href="/archives/2018/01/">
                 <span class="level-start">
-                    <span class="level-item">October 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/09/">
-                <span class="level-start">
-                    <span class="level-item">September 2018</span>
+                    <span class="level-item">January 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">2</span>
@@ -1178,9 +1151,75 @@
         </li>
         
         <li>
-            <a class="level is-marginless" href="/archives/2016/07/">
+            <a class="level is-marginless" href="/archives/2017/10/">
                 <span class="level-start">
-                    <span class="level-item">July 2016</span>
+                    <span class="level-item">October 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>

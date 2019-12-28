@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>分而治之 - Recorder</title>
+
+
+    <meta name="description" content="生活中经常看到跟排序相关的例子，如：微博中排名前10的热点话题，学校中考试平均成绩排名前3的班级，NBA中比赛胜率排名前8的球队等。排序可以让重点数据凸显出来，从而更容易得到关注。开发中，我们也常遇到排序的问题，如对一个集合a(1),a(2),a(3),…,a(N)进行排序，然后取出前10个最大值。">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分而治之">
+<meta property="og:url" content="http://yoursite.com/2019/03/01/分而治之/index.html">
+<meta property="og:site_name" content="Recorder">
+<meta property="og:description" content="生活中经常看到跟排序相关的例子，如：微博中排名前10的热点话题，学校中考试平均成绩排名前3的班级，NBA中比赛胜率排名前8的球队等。排序可以让重点数据凸显出来，从而更容易得到关注。开发中，我们也常遇到排序的问题，如对一个集合a(1),a(2),a(3),…,a(N)进行排序，然后取出前10个最大值。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-12-28T14:36:43.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分而治之">
+<meta name="twitter:description" content="生活中经常看到跟排序相关的例子，如：微博中排名前10的热点话题，学校中考试平均成绩排名前3的班级，NBA中比赛胜率排名前8的球队等。排序可以让重点数据凸显出来，从而更容易得到关注。开发中，我们也常遇到排序的问题，如对一个集合a(1),a(2),a(3),…,a(N)进行排序，然后取出前10个最大值。">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/og_image.png" alt="分而治之" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-02-28T16:00:00.000Z">2019-03-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3116 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                分而治之
+            
+        </h1>
+        <div class="content">
+            <p>生活中经常看到跟排序相关的例子，如：微博中排名前10的热点话题，学校中考试平均成绩排名前3的班级，NBA中比赛胜率排名前8的球队等。排序可以让重点数据凸显出来，从而更容易得到关注。开发中，我们也常遇到排序的问题，如对一个集合a(1),a(2),a(3),…,a(N)进行排序，然后取出前10个最大值。<a id="more"></a> 如果集合比较小，可以编写一段排序程序，并且在一台计算机上就可以快速执行完成。如果集合比较大（比如几十亿或几百亿个元素），这对一台计算机来说是非常吃力的，甚至无法完成计算。有一个比较好的方案是使用分治算法，先把一个大集合拆分为几个小集合，如一分为二，变为a(1),a(2),…,a(N/2)和a(N/2+1),a(N/2+2),…,a(N)，然后对每一半分别进行排序，并取出每一半集合中前10个最大值，最后一步是合并结果，把每一半集合前10个最大值合并到一个集合中（20个元素），之后对这个集合进行最后一次排序，取出最大的前10个值，这10个值就是整个大集合中排名前10的最大值。</p>
+<p>上面例子使用到了分治的思路，从数据量、计算能力、内存容量、磁盘容量等维度上得到了扩展，把大数据进行拆分，充分使用多台计算机的计算能力和存储能力，这也是Google发明MapReduce程序的思路。</p>
+<p>在架构设计中，分治思路同样可以发挥重要作用。分治可以理解为拆分，可以拆分数据库、拆分服务、拆分机器资源等，拆分的作用是可以使软件架构更易于扩展，以适应业务需求的快速变化（如用户量增长、请求量增长）。下面从三个方面来讲诉如何有效的扩展系统规模，以满足急剧膨胀的快速功能扩展和价值创造的需求。这三个方面用XYZ轴来表示，如图：</p>
+<center><img src="/images/architecture/divide_and_rule/divide_and_rule.png"></center>
+
+<h3 id="X轴拆分"><a href="#X轴拆分" class="headerlink" title="X轴拆分"></a>X轴拆分</h3><ul>
+<li><p><strong>内容</strong>：通常叫水平扩展，通过复制服务或数据库以分散事务处理带来的负载。</p>
+</li>
+<li><p><strong>场景</strong>：</p>
+<pre><code>1.数据库读写比例很高（可以达到5:1甚至更高）。
+2.事务增长超过数据增长的系统。</code></pre></li>
+<li><p><strong>用法</strong>：</p>
+<pre><code>1.复制服务，同时配置负载均衡器。
+2.确保使用数据库的程序清楚读和写的区别。</code></pre></li>
+<li><p><strong>原因</strong>：以复制数据和功能为代价获得事务的快速扩展。</p>
+</li>
+<li><p><strong>要点</strong>：X轴拆分实施速度快、研发成本低，事务处理扩展效果好。然而，从运维角度来看，数据的运营成本比较高。</p>
+</li>
+</ul>
+<p>在应用系统开发中，关系型数据库是很多开发者选择的存储方式，在扩展问题的解决方案中最困难的部分经常是数据库或持久存储层。OLTP系统中大多数表都遵循为第三范式，数据库表的每一列都是不可分割的原子数据项，非关键字段完全依赖于主键，任何非关键字段不依赖于其它非关键字段。因为ACID（原子性、一致性、隔离性、持久性）属性，许多应用依靠数据库来支持和强制这些关系，导致这种数据库很难被拆分。</p>
+<p>数据库扩展的一个技巧是利用大多数应用对数据库的读操作远远多于写操作。这种类型的系统可以通过复制只读数据的办法实现扩展。根据数据对时间的敏感性（数据必须是即时、实时、同步和完全正确的，这是理想状态，但是要实现这种系统的成本是昂贵的，因此，基于成本和实现复杂度的考虑，并不是所有的数据都必须是实时同步的），我们有几种不同的方法来分散只读数据。</p>
+<p>一种方法是在数据库的前面加缓冲层。让读操作直接从缓冲层读取数据，而不用反复查询数据库。当读取的数据在缓存层不存在或已过期时，才触发查询数据库的操作，并更新最近查询的数据到缓冲层。这种方案目前有很多开源组件可以实现（如redis、memcache等），对频繁读操作的性能有显著提升。</p>
+<p>还有一种方法是数据库复制。许多数据库通过主从方式来实现复制，主数据库是负责写入的主要事务型数据库，而从数据库是主数据库的只读副本。主数据库不断的跟踪数据的更新、插入、删除，并把记录存入一个二进制日志。从数据库从主数据库获取二进制日志后，在从数据库上重新执行这些命令。这是一个异步的过程，数据之间的时间延迟，取决于主数据库更新、插入、删除的数据量。该方案经常结合负载均衡器来实现，应用程序向负载均衡器发起读取请求，负载均衡器以轮询或者最少连接数的策略把请求传递给从数据库。目前数据库复制有两种常用方式，一种是以主主的概念进行复制，其中任意数据库都可以用来读和写，但是更建议使用另外一种方式，就是分离读和写数据库（也就是上面的方式，一个写数据库，多个读数据库），这样有助于消除混淆和避免数据库之间的逻辑争用。</p>
+<p>我们把这种拆分称为X轴拆分（水平复制）。X轴拆分不仅可以应用于数据库，在可以应用在网络服务器和应用服务器的扩展中。这种水平复制的方式允许事务在系统之间均匀地分布以实现水平扩展，但是局限性也很明显，随着流量和数据的增大，业务越来越复杂，单纯的X轴拆分很快遇到性能瓶颈（内存、存储等资源的约束）。为了解决这些问题，我们需要引入Y轴和X轴扩展。</p>
+<h3 id="Y轴拆分"><a href="#Y轴拆分" class="headerlink" title="Y轴拆分"></a>Y轴拆分</h3><ul>
+<li><p><strong>内容</strong>：Y轴扩展也称为功能（服务）或数据（资源）扩展。</p>
+</li>
+<li><p><strong>场景</strong>：</p>
+<pre><code>1.数据之间的关联关系不是那么强的大型数据集。
+2.需要拆分资源的大型复杂系统。</code></pre></li>
+<li><p><strong>用法</strong>：</p>
+<pre><code>1.结合拆分功能（服务）和拆分数据（资源）。
+2.沿着服务和资源定义的边界来拆分功能和数据。</code></pre></li>
+<li><p><strong>原因</strong>：不仅允许应用事务和大型数据集有效扩展，也支持团队的有效扩展。</p>
+</li>
+<li><p><strong>要点</strong>：Y轴扩展有益于故障隔离，也减低团队之间的沟通成本。</p>
+</li>
+</ul>
+<p>简单的说，Y轴拆分是通过在系统内部拆分不同的功能和数据从而实现扩展的方法。</p>
+<p>首先，我们先通过功能（或服务）来拆分。拿电商系统来说，电商系统由登录、商品搜索、购物车、订单等功能模块组成。当分析登录和商品搜索这样迥然不同的功能时，这两种功能的边界划分和差异性比较明显，使得这种扩展方法更有效的实现。在登录的情况下，我们主要关注的是用户验证凭据和会话状态，因此需要缓存和该用户有关的交互数据。商品搜索关注的是寻找一个商品，关心的是用户的意图和商品。拆分这两类数据后，每类数据有属于各自的缓冲层和数据库持久层，将使我们能够在每个功能中投入更多的系统资源（如：cpu、内存、磁盘等），更充分地利用系统资源促使这两个功能模块有更快的响应速度。</p>
+<p>其次，我们通过数据来拆分。继续电商系统为例，假设电商系统是由产品目录、产品库存、用户账户信息和营销信息等组成。我们可以根据数据按类型拆分，然后抽象出数据操作的接口，如创建、查询、更新、删除。</p>
+<p>Y轴拆分对功能和数据的扩展最有价值，但同时对团队的扩展也很有用途。随着功能和数据的拆分，实现功能和操作数据的代码也会被拆分，这意味着技术团队也会被拆分为不同子团队，每个子团队只负责实现各自的功能模块，并在服务中建立和维护各自的接口（或API）。正因为拆分了功能和数据，应用系统才容易扩展事务。</p>
+<h3 id="Z轴拆分"><a href="#Z轴拆分" class="headerlink" title="Z轴拆分"></a>Z轴拆分</h3><ul>
+<li><strong>内容</strong>：根据数据独特的属性（例如ID、地理位置、时间范围等）拆分。</li>
+<li><strong>场景</strong>：适用于非常大而且类似的数据集，如庞大的客户群、机器日志等。</li>
+<li><strong>用法</strong>：根据数据的属性对数据集进行分片（或分区）存储。</li>
+<li><strong>原因</strong>：快速增长的数据集，分片后有利于快速查询和故障隔离。</li>
+<li><strong>要点</strong>：Z轴拆分对于扩大数据基数的效果明显，非常适用于大型数据集上。</li>
+</ul>
+<p>Z轴拆分通常被称为分片，是把一个数据集或一个服务分割成几块。一般情况下，这些块的大小比较平均，但也可能存在这些块大小不一，块之间大小差异比较大。生活中我们已经使用到了分片的思维，假如我们要把一堆书按照分类（文学、科技、数学等类别）分别装到不同的箱子中，并在每个箱子上贴上分类标签，这样，当我们要找一本 “红楼梦” 时，直接到贴有 “文学” 标签的箱子里找即可，而无需遍历所有的箱子，节省了寻找时间。</p>
+<p>分片是根据数据的属性来拆分的，如：在电商系统中可以根据用户的地理位置对用户信息进行分片，在日志管理系统中可以根据日志产生日期对日志数据进行分片，如果数据没有明显的属性，可以对数据的ID取模或散列算法来产生分片。分片的最大用处是能够有效的分散数据集，提高数据查询响应速度。如果没有对数据分片，要查找一个数据时需要遍历一整个数据集而变得异常缓慢。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通常X轴扩展的成本最低，Y和Z轴的扩展方案相对复杂，但是更具有灵活性。结合这三种扩展方法，在大多数系统扩展时都会得到很好的效果。</p>
+
+        </div>
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章如有错误，请指出！</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/01/简单之美/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">简单之美</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/01/01/分类-朴素贝叶斯/">
+                <span class="level-item">朴素贝叶斯</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'e03054f71973d7b03458532b5ca2c47d',
+		owner: 'forway',
+		repo: 'comment',
+		oauth: {
+			client_id: 'cd1447ff559a853961fe',
+			client_secret: 'c22425bd7d8677a7987b6488a41562ccd3958ad2',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Forway">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Forway
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ......
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        9
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/forway" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/forway">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/atom.xml">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/elasticsearch/">
+            <span class="level-start">
+                <span class="level-item">elasticsearch</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/flume/">
+            <span class="level-start">
+                <span class="level-item">flume</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/game/">
+            <span class="level-start">
+                <span class="level-item">game</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/java/">
+            <span class="level-start">
+                <span class="level-item">java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/01/布隆过滤器/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="布隆过滤器">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T16:00:00.000Z">2019-06-01</time></div>
+                    <a href="/2019/06/01/布隆过滤器/" class="title has-link-black-ter is-size-6 has-text-weight-normal">布隆过滤器</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/01/简单之美/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="简单之美">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-30T16:00:00.000Z">2019-05-01</time></div>
+                    <a href="/2019/05/01/简单之美/" class="title has-link-black-ter is-size-6 has-text-weight-normal">简单之美</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/01/分而治之/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="分而治之">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-28T16:00:00.000Z">2019-03-01</time></div>
+                    <a href="/2019/03/01/分而治之/" class="title has-link-black-ter is-size-6 has-text-weight-normal">分而治之</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/01/01/分类-朴素贝叶斯/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="朴素贝叶斯">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time></div>
+                    <a href="/2018/01/01/分类-朴素贝叶斯/" class="title has-link-black-ter is-size-6 has-text-weight-normal">朴素贝叶斯</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/01/01/回归-线性回归/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="线性回归">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time></div>
+                    <a href="/2018/01/01/回归-线性回归/" class="title has-link-black-ter is-size-6 has-text-weight-normal">线性回归</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/elasticsearch/">
+                        <span class="tag">elasticsearch</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/flume/">
+                        <span class="tag">flume</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/game/">
+                        <span class="tag">game</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/spark/">
+                        <span class="tag">spark</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/回归/">
+                        <span class="tag">回归</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/机器学习/">
+                        <span class="tag">机器学习</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a>
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/og_image.png" alt="分而治之" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Forway&nbsp;
+                Recording -- 文章如有错误，请指出！
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
