@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-02T02:01:57.122Z</updated>
+  <updated>2020-01-02T02:06:47.104Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>数据湖架构初探</title>
-    <link href="http://yoursite.com/2019/12/01/%E6%95%B0%E6%8D%AE%E6%B9%96%E6%9E%B6%E6%9E%84%E5%88%9D%E6%8E%A2/"/>
-    <id>http://yoursite.com/2019/12/01/数据湖架构初探/</id>
+    <title>数据湖架构</title>
+    <link href="http://yoursite.com/2019/12/01/%E6%95%B0%E6%8D%AE%E6%B9%96%E6%9E%B6%E6%9E%84/"/>
+    <id>http://yoursite.com/2019/12/01/数据湖架构/</id>
     <published>2019-11-30T16:00:00.000Z</published>
-    <updated>2020-01-02T02:01:57.122Z</updated>
+    <updated>2020-01-02T02:06:47.104Z</updated>
     
     <content type="html"><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr><p>在大数据时代，大数据项目成了各大公司迫在眉睫的实现案例，于是各大公司各显神通，出现了很多数据平台和架构的设计方案。但是，很多大数据项目的落地过程并不容易，最大的问题是，很多客户反应已经接入了那么多的数据，为什么在出报表或要分析相关数据时的周期却那么长，通常需要1至2周，更重要的是很多时候分析的结果并不能给公司带来高收益或高效率，进而不能够给公司的决策上带来帮组，这样数据湖就变成了“垃圾场”。</p><a id="more"></a> <h4 id="数据湖-单向数据湖的问题"><a href="#数据湖-单向数据湖的问题" class="headerlink" title="数据湖-单向数据湖的问题"></a>数据湖-单向数据湖的问题</h4><hr><p>造成数据湖的价值之低的主要原因有以下几点：</p><ul><li>数据量大：大量数据接入数据湖，找到想要分析的数据犹如大海捞针</li><li>数据的含义模糊：存在各种各样的数据，在数据的阅读和理解上需要专业人事的水平</li><li>数据的格式复杂：由于数据格式的多样和复杂，造成数据在存储和计算上造成过高的成本</li><li>数据的不规范化：只负责接入数据，而不对数据进行规范的管理，增大数据的获取和分析的难度</li></ul><p>以上原因也就造成数据湖的利用效率变低，也就是数据进来了，但是输出有价值的数据少之又少，这种数据湖也称为“单向数据湖”。</p><h4 id="数据湖的实现流程"><a href="#数据湖的实现流程" class="headerlink" title="数据湖的实现流程"></a>数据湖的实现流程</h4><hr><p>为了提高数据湖中的数据价值，就需要对数据湖进行规划改造。实现数据湖要符合以下4种规范：</p><p>1、元数据（metadata）<br>元数据就是数据湖中的对数据进行描述的数据。当我们要使用某个数据集时，要事先知道这个数据集有哪些信息，这些信息包括数据属性、属性类型、主键值、索引以及数据属性之间的关系等描述。</p><p>2、整合图谱（integration mapping）<br>整合图谱描述的是多个数据集之间是如何产生关联的，以及数据以什么样的逻辑被组合到一起。</p><p>3、语境（context）<br>语境也叫上下文，主要针对文本数据的分析中，语境描述的是一个词语或语句在数据记录中所表达的意思。如果文本数据缺乏语境描述，那么在分析时很容易出现数据上的意义不明确或表达出现歧义，也就是同一个词语或语句在不同的数据记录中表示的意义不同。</p><p>4、元过程（meta process）<br>元过程信息描述的是数据是被如何处理的，如数据在何处产生（如设备IP）？在何时产生（如时间戳）？由谁产生（如某个应用程序）？被如何处理的（如使用正则解析）？如何进入数据湖的（如udp/agent方式）？</p><h4 id="数据湖中的数据类型"><a href="#数据湖中的数据类型" class="headerlink" title="数据湖中的数据类型"></a>数据湖中的数据类型</h4><hr><p>数据湖中有各种各样类型的数据，主要被分为3种：<br>1、模拟信号数据</p><ul><li>来源：机器设备（cpu、容量）、传感器、程序埋点等</li><li>特点：数据量巨大，重复性数据，通常作为指标监测，异常值是关注点</li></ul><p>2、应用程序数据</p><ul><li>来源：应用系统、业务系统，如：访问日志、关系数据库表</li><li>特点：数据量较大、重复性数据，以记录形式出现，通常作为应用和业务的分析</li></ul><p>3、文本数据</p><ul><li>来源：应用系统，通常会与某个应用系统相关联，如：文章、评论、邮件等</li><li>特点：数据量大、非重复非结构化数据。在分析前需要结构化，并标识相关语境信息</li></ul><h4 id="数据池"><a href="#数据池" class="headerlink" title="数据池"></a>数据池</h4><hr><p>1、初始数据池：数据最开始进入初始化数据池，所以它必须要小且向外传递数据的速度要快</p><p>2、模拟信号数据池：存储模拟信号数据的地方，这里主要对数据进行缩减</p><p>3、应用程序数据池：应用程序数据算是数据湖中“最干净”的数据，需要对数据解析以便分析</p><p>4、文本数据池：它是非结构化数据，需要进行数据消歧（解析成一致格式、标识语境）</p><p>5、归档数据池：存储历史中不常用于分析的数据（或过期数据）</p><img src="/images/architecture/data_lake/data_lake_1.png"><h4 id="数据池的通用结构"><a href="#数据池的通用结构" class="headerlink" title="数据池的通用结构"></a>数据池的通用结构</h4><hr><p>每个数据池都有一些共同的组成部分：</p><ul><li>数据池描述：更新频率、来源描述、数据量、选择标准（为什么采纳这个数据）、摘要标准（采用什么算法处理了数据）、规划标准（数据规划描述）、数据关系</li><li>数据池目标：用于调整数据模型，如用户描述、销售记录、库存记录等</li><li>数据池数据：数据的实体，通常采用read on schema方式</li><li>数据池元数据：用来描述数据的具体特征，如：属性、键、索引等</li><li>数据池元过程：用来描述数据调整或解析的过程，属于数据池外的处理过程</li><li>数据转换标准：数据调整或解析的标准，如：如何过滤、统一单位、打标签、消歧等。</li></ul><h4 id="模拟信号数据池"><a href="#模拟信号数据池" class="headerlink" title="模拟信号数据池"></a>模拟信号数据池</h4><hr><p>对于模拟信号数据，最大的挑战是如何简化和提炼出重要的数据。有如下方法：</p><ul><li>消重：也就是去重</li><li>切除：过滤掉没用的数据</li><li>压缩：压缩后，需要解压缩</li><li>平滑：消除或修改异常值</li><li>插值：根据数据点周围的数值推断可能的值</li><li>采样：适用粗度分析，不适合精细分析</li><li>舍入：删除或舍掉无关要紧的数据</li><li>编码：用较短符号代表长字符串</li><li>标记：是数据编码的一种，适用标记高度重复数据</li><li>阈值：阈值是数据切除的一种形式</li><li>聚类：是数据消重的一种</li><li>聚合：用来缩减数据，提供缩减后的平均值、最大值、最小值、标准差等</li></ul><h4 id="应用程序数据池"><a href="#应用程序数据池" class="headerlink" title="应用程序数据池"></a>应用程序数据池</h4><hr><p>应用程序数据包含关系数据库数据、应用日志、业务日志等，调整和解析这些数据有如下方法：</p><ul><li>正则解析：使用正则解析出需要分析的属性</li><li>打标签：使用对照档方式或程序方式打标签</li><li>关联应用数据：使用离线计算或流计算整合数据</li></ul><h4 id="文本数据池"><a href="#文本数据池" class="headerlink" title="文本数据池"></a>文本数据池</h4><hr><p>文本数据是非结构化数据，在整合和分析上的难度都比较大，整合的方式主要是文本消歧：</p><ul><li>分词：文本数据结构化的一种方式</li><li>内在语境判断：根据周围单词或上下文判断某个词语或语句的表示意思</li><li>领近：彼此邻近的词更容易发现词义</li><li>同形词辨认：如”ha”可以表示头疼（head ache），也可以表示高可用（high availability）</li><li>拼写转换：在英格兰，单词color的拼法是colour</li><li>缩写辨认：一种拼写转换的一种，如NBA是美国职业篮球联赛（National Basketball Association）</li><li>自定义变量识别：如电话号识别、身份证识别</li><li>类别辨认：是文本消歧的一种，也就是归类，如：苹果、梨都属于水果</li><li>日期标准化：如2019年10月10日和2019-10-10是一样的</li></ul><h4 id="数据池之间的对比"><a href="#数据池之间的对比" class="headerlink" title="数据池之间的对比"></a>数据池之间的对比</h4><hr><p>1、相同点</p><ul><li>都会将初始数据转换、解析、整合成为适合分析的形式</li><li>最终都能够回支持业务分析</li><li>最后数据都发送到归档数据池</li></ul><p>2、不同点</p><ul><li>进入不同数据池的数据类型不同（模拟信号数据、应用程序数据、文本）</li><li>转换和调整的过程也不相同</li><li>每个数据池最终的数据状态所产生的业务分析类型不同</li></ul><p>3、建议点</p><ul><li>数据的最终状态是否一定是关系数据库格式：不一定，不过通常是关系型结构化的格式</li><li>每个数据池的最终状态数据是否以同一种技术处理：不一定，为了减少开销，通常会使用相同技术</li><li>数据池之间的数据移动：技术上可行，但是不建议这样做，意义不大</li><li>在多个数据池进行分析：技术上可行，必要时需要这样分析</li><li>使用元数据来关联不同数据池的数据：不同数据池的数据关系首先发生在元数据层</li><li>如何处理不属于本文提到的3种类型数据：不要将此数据放置在不属于它的数据池内，建议放在初始数据池内的杂项数据区。</li></ul><h4 id="数据湖常用的方式-搜索与分析"><a href="#数据湖常用的方式-搜索与分析" class="headerlink" title="数据湖常用的方式-搜索与分析"></a>数据湖常用的方式-搜索与分析</h4><hr><p>当被转换和整合的数据进入数据池后，接下来就是进行业务分析了，这里有两个步骤：</p><p>（1）找到数据-搜索</p><p>搜索技术是找数据的高效方式，常用的搜索技术有：建立索引、搜索引擎。</p><p>（2）分析数据-分析</p><p>数据分析也有多种形式：数据排序、数据摘要、数据比较、异常分析等。<br>常用的数据分析技术有：OLAP分析引擎、机器学习。</p><h4 id="数据池中的业务价值"><a href="#数据池中的业务价值" class="headerlink" title="数据池中的业务价值"></a>数据池中的业务价值</h4><hr><p>不同数据池提供的价值和提供价值的方式是不尽相同的。</p><p>1、模拟信号数据池</p><p>提供价值的方式：异常检测、发现数据规律（如趋势）</p><p>2、应用程序数据池</p><p>提供价值的方式：审计、统计分析、历史追溯</p><p>3、文本数据池</p><p>提供价值的方式：语义分析（情感、观点）、文本分类</p><p>看待数据池所提供的业务价值的另一个角度是通过记录所含的业务价值百分比（有价值记录/所有记录）。</p><p>实际中，大量重复的数据是乏味的，一般只会关心异常和特殊的数据记录，而非重复的记录都是有趣的，尽管或多或少有些差别，但都具有业务价值。<br>所以，3种数据池含有的业务价值排名如下：</p><p>模拟信号数据池（很低%） &lt;  应用程序数据池（低%） &lt;    文本数据池（很高%）</p><h4 id="数据湖的一些规范"><a href="#数据湖的一些规范" class="headerlink" title="数据湖的一些规范"></a>数据湖的一些规范</h4><hr><p>1、文档的重要性</p><ul><li>数据如何进入数据湖、如何从一个数据池流向另一个数据池、如何流入归档数据池</li><li>数据池的元数据信息、元过程信息、转换文档、数据流动架构、数据进入或离开数据池的标准</li></ul><p>2、流入数据湖的数据</p><ul><li>企业或工厂信息、机器或设备数据、应用业务系统、数据仓库、数据集市等</li></ul><p>3、数据的年龄</p><ul><li>在数据湖中，可以找到任何年龄的数据，包括秒、天、年</li><li>需要长时间保留数据的另一个原因是为了合规要求，有些数据是必须永久保存的</li></ul><p>4、数据的安全</p><ul><li>数据湖环境需要安全，但是不如其它数据处理环境中那么严格</li><li>常见数据安全的处理方式有：权限控制、加密、脱敏</li></ul><h4 id="数据湖中的技术或工具"><a href="#数据湖中的技术或工具" class="headerlink" title="数据湖中的技术或工具"></a>数据湖中的技术或工具</h4><hr><p>常用的数据湖的实现技术或工具如下：</p><ul><li>可视化：BI工具、Grafana、Echart等</li><li>搜索或检索：Elasticsearch、Solr</li><li>文本消歧：自然语言处理技术、数据解析或整合时打标签</li><li>统计分析：OLAP工具、Impala、Presto、Hive、Spark</li><li>数据ETL处理：Logstash、Spark、Kettle</li></ul><h4 id="归档数据池"><a href="#归档数据池" class="headerlink" title="归档数据池"></a>归档数据池</h4><hr><p>数据池的数据是有生命周期的，归档数据池是用来保存那些生命周期步入尾声的数据。</p><p>数据进入归档数据池的标准：</p><ul><li>老化的数据</li><li>低使用频率的数据</li><li>由于法规要求强制保留的数据</li><li>由于数据具有关键性价值而被保留的数据</li></ul><p>必要时，需要为归档数据池建立单独的索引。</p><h4 id="数据湖和数据仓库"><a href="#数据湖和数据仓库" class="headerlink" title="数据湖和数据仓库"></a>数据湖和数据仓库</h4><hr><p>根据要求，典型的组织将需要数据仓库和数据湖，因为它们可满足不同的需求和使用案例。</p><p>数据仓库是一个优化的数据库，用于分析来自事务系统和业务线应用程序的关系数据。事先定义数据结构和 Schema 以优化快速 SQL 查询，其中结果通常用于操作报告和分析。数据经过了清理、丰富和转换，因此可以充当用户可信任的“单一信息源”。</p><p>数据湖有所不同，因为它存储来自业务线应用程序的关系数据，以及来自移动应用程序、IoT 设备和社交媒体的非关系数据。捕获数据时，未定义数据结构或 Schema。这意味着您可以存储所有数据，而不需要精心设计也无需知道将来您可能需要哪些问题的答案。您可以对数据使用不同类型的分析（如 SQL 查询、大数据分析、全文搜索、实时分析和机器学习）来获得见解。</p><img src="/images/architecture/data_lake/data_lake_2.png">]]></content>
     
@@ -188,6 +188,29 @@
   </entry>
   
   <entry>
+    <title>接口隔离原则</title>
+    <link href="http://yoursite.com/2017/10/01/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/"/>
+    <id>http://yoursite.com/2017/10/01/接口隔离原则/</id>
+    <published>2017-09-30T16:00:00.000Z</published>
+    <updated>2019-12-28T14:33:35.928Z</updated>
+    
+    <content type="html"><![CDATA[<p>接口隔离原则（Interface Segregation Principle，ISP）。ISP定义：<br><strong>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</strong></p><a id="more"></a> <h3 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h3><p>直观认识ISP原则，直接上图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_1.png"></center><p>在图中所描述的应用中，有多个用户需要操作Ops类。现在，我们假设User1类只需要使用op1，User2类只需要使用op2，User3类只需要使用op3。</p><p>在这种情况下，如果使用Java语言来实现，User1并不需要调用op2、op3方法，但是在代码层次上且与Ops类形成了依赖。这种依赖意味着我们对Ops类的op2方法所做的任何修改，即使不会影响User1的功能，也会导致Ops需要被重新编译和部署。</p><p>这个问题可以通过将不同的操作隔离成接口来解决，如下图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_2.png"></center><p>同样，如果使用Java语言来实现，那么User1类会依赖于U1Ops接口，且U1Ops接口只有op1方法，但是User1类不会依赖Ops类，Ops类只需要负责实现U1Ops接口的方法即可。这样一来，我们之后对Ops类做的修改只要不影响到User1的功能，就不需要重新编译和部署User1了。</p><h3 id="ISP于编程语言"><a href="#ISP于编程语言" class="headerlink" title="ISP于编程语言"></a>ISP于编程语言</h3><p>我们知道，一个算法、一个设计思路是跟具体的编程语言无关的。上面的例子很大程度上依赖于编程语言的一个特性，那就是导入需要的依赖代码，如Java语言的import，C语言的include等。而正是这些语句带来了代码之间的依赖关系，这也导致了某些模块需要被重新编译和重新部署。</p><p>对于Python和Ruby这样的动态语言来说，它们属于解释性语言，它们所依赖的代码会在运行时被推演出来，所以也就不存在重新编译和重新部署的必要性。这也是动态语言比静态语言更灵活、耦合度更松的原因。</p><p>当然，如果是这样的话，我们可能会误以为ISP只是一个与特定编程语言相关的设计原则，而非软件架构的设计原则，这就错了。</p><h3 id="ISP于软件架构"><a href="#ISP于软件架构" class="headerlink" title="ISP于软件架构"></a>ISP于软件架构</h3><p>在一般情况下，任何层次的软件设计如果依赖于不需要的东西，都会是有害的。从代码层次来说，这样的依赖会导致不必要的重新编译和重新部署，从软件架构层次来说，问题也是类似的。</p><p>例如，我们在设计系统S（System）时，想要在系统中引入某个框架F（Framework），并假设框架F又绑定在一个特定的数据库D（DB）上，这样就形成了S依赖于F，F依赖于D的关系。如图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_3.png"></center><p>在这种情况下，如果D中包含了F不需要的功能，那么这些功能同样也会是S不需要的。而我们对D中这些功能的修改将会导致F需要被重新部署，后者又会导致S的重新部署。更糟糕的是，D中一个无关功能的错误也可能会导致F和S运行出错。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ISP设计原则告诉我们：任何层次（代码和架构）的软件设计如果依赖了它并不需要的东西，就会带来意料之外的麻烦。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;接口隔离原则（Interface Segregation Principle，ISP）。ISP定义：&lt;br&gt;&lt;strong&gt;客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="架构" scheme="http://yoursite.com/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="架构" scheme="http://yoursite.com/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
     <title>开闭原则</title>
     <link href="http://yoursite.com/2017/10/01/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/"/>
     <id>http://yoursite.com/2017/10/01/开闭原则/</id>
@@ -224,29 +247,6 @@
     <summary type="html">
     
       &lt;p&gt;里氏替换原则（Liskov Substitution Principle，LSP）是面向对象设计的基本原则之一。 里氏替换原则认为：&lt;br&gt;&lt;strong&gt;任何基类（父类或接口）可以出现的地方，子类（实现类）一定可以出现。 LSP是继承复用的基石，只有当子类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而子类也能够在基类的基础上增加新的行为&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="架构" scheme="http://yoursite.com/categories/%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="架构" scheme="http://yoursite.com/tags/%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>接口隔离原则</title>
-    <link href="http://yoursite.com/2017/10/01/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/"/>
-    <id>http://yoursite.com/2017/10/01/接口隔离原则/</id>
-    <published>2017-09-30T16:00:00.000Z</published>
-    <updated>2019-12-28T14:33:35.928Z</updated>
-    
-    <content type="html"><![CDATA[<p>接口隔离原则（Interface Segregation Principle，ISP）。ISP定义：<br><strong>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</strong></p><a id="more"></a> <h3 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h3><p>直观认识ISP原则，直接上图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_1.png"></center><p>在图中所描述的应用中，有多个用户需要操作Ops类。现在，我们假设User1类只需要使用op1，User2类只需要使用op2，User3类只需要使用op3。</p><p>在这种情况下，如果使用Java语言来实现，User1并不需要调用op2、op3方法，但是在代码层次上且与Ops类形成了依赖。这种依赖意味着我们对Ops类的op2方法所做的任何修改，即使不会影响User1的功能，也会导致Ops需要被重新编译和部署。</p><p>这个问题可以通过将不同的操作隔离成接口来解决，如下图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_2.png"></center><p>同样，如果使用Java语言来实现，那么User1类会依赖于U1Ops接口，且U1Ops接口只有op1方法，但是User1类不会依赖Ops类，Ops类只需要负责实现U1Ops接口的方法即可。这样一来，我们之后对Ops类做的修改只要不影响到User1的功能，就不需要重新编译和部署User1了。</p><h3 id="ISP于编程语言"><a href="#ISP于编程语言" class="headerlink" title="ISP于编程语言"></a>ISP于编程语言</h3><p>我们知道，一个算法、一个设计思路是跟具体的编程语言无关的。上面的例子很大程度上依赖于编程语言的一个特性，那就是导入需要的依赖代码，如Java语言的import，C语言的include等。而正是这些语句带来了代码之间的依赖关系，这也导致了某些模块需要被重新编译和重新部署。</p><p>对于Python和Ruby这样的动态语言来说，它们属于解释性语言，它们所依赖的代码会在运行时被推演出来，所以也就不存在重新编译和重新部署的必要性。这也是动态语言比静态语言更灵活、耦合度更松的原因。</p><p>当然，如果是这样的话，我们可能会误以为ISP只是一个与特定编程语言相关的设计原则，而非软件架构的设计原则，这就错了。</p><h3 id="ISP于软件架构"><a href="#ISP于软件架构" class="headerlink" title="ISP于软件架构"></a>ISP于软件架构</h3><p>在一般情况下，任何层次的软件设计如果依赖于不需要的东西，都会是有害的。从代码层次来说，这样的依赖会导致不必要的重新编译和重新部署，从软件架构层次来说，问题也是类似的。</p><p>例如，我们在设计系统S（System）时，想要在系统中引入某个框架F（Framework），并假设框架F又绑定在一个特定的数据库D（DB）上，这样就形成了S依赖于F，F依赖于D的关系。如图：<br><br></p><center><img src="/images/architecture/interface_segregation_principle/interface_segregation_principle_3.png"></center><p>在这种情况下，如果D中包含了F不需要的功能，那么这些功能同样也会是S不需要的。而我们对D中这些功能的修改将会导致F需要被重新部署，后者又会导致S的重新部署。更糟糕的是，D中一个无关功能的错误也可能会导致F和S运行出错。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ISP设计原则告诉我们：任何层次（代码和架构）的软件设计如果依赖了它并不需要的东西，就会带来意料之外的麻烦。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;接口隔离原则（Interface Segregation Principle，ISP）。ISP定义：&lt;br&gt;&lt;strong&gt;客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -306,29 +306,6 @@
   </entry>
   
   <entry>
-    <title>spark-压缩和序列化相关</title>
-    <link href="http://yoursite.com/2017/06/01/spark-%E5%8E%8B%E7%BC%A9%E5%92%8C%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/"/>
-    <id>http://yoursite.com/2017/06/01/spark-压缩和序列化相关/</id>
-    <published>2017-05-31T16:00:00.000Z</published>
-    <updated>2019-12-28T14:32:03.178Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p><a id="more"></a> <p>序列化对于spark应用的性能来说,还是有很大影响的,在特定的数据格式的情况下,KryoSerializer的性能可以达到JavaSerializer的10倍以上,当然放到整个Spark程序中来考量,比重就没有那么大了,但是以Wordcount为例，通常也很容易达到30%以上的性能提升。而对于一些Int之类的基本类型数据，性能的提升就几乎可以忽略了。KryoSerializer依赖Twitter的Chill库来实现，相对于JavaSerializer，主要的问题在于不是所有的Java Serializable对象都能支持。</p><p>需要注意的是，这里可配的Serializer针对的对象是Shuffle数据，以及RDD Cache等场合，而Spark Task的序列化是通过spark.closure.serializer来配置，但是目前只支持JavaSerializer，所以等于没法配置啦。</p><h4 id="2-spark-rdd-compress"><a href="#2-spark-rdd-compress" class="headerlink" title="(2) spark.rdd.compress"></a>(2) spark.rdd.compress</h4><p>这个参数决定了RDD Cache的过程中，RDD数据在序列化之后是否进一步进行压缩再储存到内存或磁盘上。当然是为了进一步减小Cache数据的尺寸，对于Cache在磁盘上而言，绝对大小大概没有太大关系，主要是考虑Disk的IO带宽。而对于Cache在内存中，那主要就是考虑尺寸的影响，是否能够Cache更多的数据，是否能减小Cache数据对GC造成的压力等。</p><p>这两者，前者通常不会是主要问题，尤其是在RDD Cache本身的目的就是追求速度，减少重算步骤，用IO换CPU的情况下。而后者，GC问题当然是需要考量的，数据量小，占用空间少，GC的问题大概会减轻，但是是否真的需要走到RDD Cache压缩这一步，或许用其它方式来解决可能更加有效。</p><p>所以这个值默认是关闭的，但是如果在磁盘IO的确成为问题或者GC问题真的没有其它更好的解决办法的时候，可以考虑启用RDD压缩。</p><h4 id="3-spark-broadcast-compress"><a href="#3-spark-broadcast-compress" class="headerlink" title="(3) spark.broadcast.compress"></a>(3) spark.broadcast.compress</h4><p>是否对Broadcast的数据进行压缩，默认值为True。</p><p>Broadcast机制是用来减少运行每个Task时，所需要发送给TASK的RDD所使用到的相关数据的尺寸，一个Executor只需要在第一个Task启动时，获得一份Broadcast数据，之后的Task都从本地的BlockManager中获取相关数据。在1.1最新版本的代码中，RDD本身也改为以Broadcast的形式发送给Executor（之前的实现RDD本身是随每个任务发送的），因此基本上不太需要显式的决定哪些数据需要broadcast了。</p><p>因为Broadcast的数据需要通过网络发送，而在Executor端又需要存储在本地BlockMananger中，加上最新的实现，默认RDD通过Boradcast机制发送，因此大大增加了Broadcast变量的比重，所以通过压缩减小尺寸，来减少网络传输开销和内存占用，通常都是有利于提高整体性能的。</p><p>什么情况可能不压缩更好呢，大致上个人觉得同样还是在网络带宽和内存不是问题的时候，如果Driver端CPU资源很成问题（毕竟压缩的动作基本都在Driver端执行），那或许有调整的必要。</p><h4 id="4-spark-io-compression-codec"><a href="#4-spark-io-compression-codec" class="headerlink" title="(4) spark.io.compression.codec"></a>(4) spark.io.compression.codec</h4><p>RDD Cache和Shuffle数据压缩所采用的算法Codec，默认值曾经是使用LZF作为默认Codec，最近因为LZF的内存开销的问题，默认的Codec已经改为Snappy。</p><p>LZF和Snappy相比较，前者压缩率比较高（当然要看具体数据内容了，通常要高20%左右），但是除了内存问题以外，CPU代价也大一些（大概也差20%~50%？）</p><p>在用于Shuffle数据的场合下，内存方面，应该主要是在使用HashShuffleManager的时候有可能成为问题，因为如果Reduce分区数量巨大，需要同时打开大量的压缩数据流用于写文件，进而在Codec方面需要大量的buffer。但是如果使用SortShuffleManager，由于shuffle文件数量大大减少，不会产生大量的压缩数据流，所以内存开销大概不会成为主要问题。</p><p>剩下的就是CPU和压缩率的权衡取舍，和前面一样，取决于CPU/网络/磁盘的能力和负载，个人认为CPU通常更容易成为瓶颈。所以要调整性能，要不不压缩，要不使用Snappy可能性大一些？</p><p>对于RDD Cache的场合来说，绝大多数场合都是内存操作或者本地IO，所以CPU负载的问题可能比IO的问题更加突出，这也是为什么 spark.rdd.compress 本身默认为不压缩，如果要压缩，大概也是Snappy合适一些？</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;压缩和序列化性能优化参数设置&quot;&gt;&lt;a href=&quot;#压缩和序列化性能优化参数设置&quot; class=&quot;headerlink&quot; title=&quot;压缩和序列化性能优化参数设置&quot;&gt;&lt;/a&gt;压缩和序列化性能优化参数设置&lt;/h3&gt;&lt;h4 id=&quot;1-spark-serializer&quot;&gt;&lt;a href=&quot;#1-spark-serializer&quot; class=&quot;headerlink&quot; title=&quot;(1) spark.serializer&quot;&gt;&lt;/a&gt;(1) spark.serializer&lt;/h4&gt;&lt;p&gt;默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="spark" scheme="http://yoursite.com/categories/spark/"/>
-    
-    
-      <category term="spark" scheme="http://yoursite.com/tags/spark/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spark-shuffle性能优化</title>
     <link href="http://yoursite.com/2017/06/01/spark-shuffle-optimization/"/>
     <id>http://yoursite.com/2017/06/01/spark-shuffle-optimization/</id>
@@ -363,6 +340,29 @@
     <summary type="html">
     
       &lt;p&gt;SparkStreaming是基于时间分片的近实时处理组件，比如需要实时对日志进行词频统计，通常是使用reduceByKey来处理，这样处理的结果是每一个时间片段的词频统计，例如第n个时间片的处理结果是[hello:3, world:5]，第n+1个时间片的处理结果是[hello:2, world:2]，但是这并不是我们期望的结果，我们期望得到的结果是不断累积各个时间片的词频，如上面的例子所希望的结果应该是[hello:5, world:7]。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="spark" scheme="http://yoursite.com/categories/spark/"/>
+    
+    
+      <category term="spark" scheme="http://yoursite.com/tags/spark/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spark-压缩和序列化相关</title>
+    <link href="http://yoursite.com/2017/06/01/spark-%E5%8E%8B%E7%BC%A9%E5%92%8C%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/"/>
+    <id>http://yoursite.com/2017/06/01/spark-压缩和序列化相关/</id>
+    <published>2017-05-31T16:00:00.000Z</published>
+    <updated>2019-12-28T14:32:03.178Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="压缩和序列化性能优化参数设置"><a href="#压缩和序列化性能优化参数设置" class="headerlink" title="压缩和序列化性能优化参数设置"></a>压缩和序列化性能优化参数设置</h3><h4 id="1-spark-serializer"><a href="#1-spark-serializer" class="headerlink" title="(1) spark.serializer"></a>(1) spark.serializer</h4><p>默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。</p><a id="more"></a> <p>序列化对于spark应用的性能来说,还是有很大影响的,在特定的数据格式的情况下,KryoSerializer的性能可以达到JavaSerializer的10倍以上,当然放到整个Spark程序中来考量,比重就没有那么大了,但是以Wordcount为例，通常也很容易达到30%以上的性能提升。而对于一些Int之类的基本类型数据，性能的提升就几乎可以忽略了。KryoSerializer依赖Twitter的Chill库来实现，相对于JavaSerializer，主要的问题在于不是所有的Java Serializable对象都能支持。</p><p>需要注意的是，这里可配的Serializer针对的对象是Shuffle数据，以及RDD Cache等场合，而Spark Task的序列化是通过spark.closure.serializer来配置，但是目前只支持JavaSerializer，所以等于没法配置啦。</p><h4 id="2-spark-rdd-compress"><a href="#2-spark-rdd-compress" class="headerlink" title="(2) spark.rdd.compress"></a>(2) spark.rdd.compress</h4><p>这个参数决定了RDD Cache的过程中，RDD数据在序列化之后是否进一步进行压缩再储存到内存或磁盘上。当然是为了进一步减小Cache数据的尺寸，对于Cache在磁盘上而言，绝对大小大概没有太大关系，主要是考虑Disk的IO带宽。而对于Cache在内存中，那主要就是考虑尺寸的影响，是否能够Cache更多的数据，是否能减小Cache数据对GC造成的压力等。</p><p>这两者，前者通常不会是主要问题，尤其是在RDD Cache本身的目的就是追求速度，减少重算步骤，用IO换CPU的情况下。而后者，GC问题当然是需要考量的，数据量小，占用空间少，GC的问题大概会减轻，但是是否真的需要走到RDD Cache压缩这一步，或许用其它方式来解决可能更加有效。</p><p>所以这个值默认是关闭的，但是如果在磁盘IO的确成为问题或者GC问题真的没有其它更好的解决办法的时候，可以考虑启用RDD压缩。</p><h4 id="3-spark-broadcast-compress"><a href="#3-spark-broadcast-compress" class="headerlink" title="(3) spark.broadcast.compress"></a>(3) spark.broadcast.compress</h4><p>是否对Broadcast的数据进行压缩，默认值为True。</p><p>Broadcast机制是用来减少运行每个Task时，所需要发送给TASK的RDD所使用到的相关数据的尺寸，一个Executor只需要在第一个Task启动时，获得一份Broadcast数据，之后的Task都从本地的BlockManager中获取相关数据。在1.1最新版本的代码中，RDD本身也改为以Broadcast的形式发送给Executor（之前的实现RDD本身是随每个任务发送的），因此基本上不太需要显式的决定哪些数据需要broadcast了。</p><p>因为Broadcast的数据需要通过网络发送，而在Executor端又需要存储在本地BlockMananger中，加上最新的实现，默认RDD通过Boradcast机制发送，因此大大增加了Broadcast变量的比重，所以通过压缩减小尺寸，来减少网络传输开销和内存占用，通常都是有利于提高整体性能的。</p><p>什么情况可能不压缩更好呢，大致上个人觉得同样还是在网络带宽和内存不是问题的时候，如果Driver端CPU资源很成问题（毕竟压缩的动作基本都在Driver端执行），那或许有调整的必要。</p><h4 id="4-spark-io-compression-codec"><a href="#4-spark-io-compression-codec" class="headerlink" title="(4) spark.io.compression.codec"></a>(4) spark.io.compression.codec</h4><p>RDD Cache和Shuffle数据压缩所采用的算法Codec，默认值曾经是使用LZF作为默认Codec，最近因为LZF的内存开销的问题，默认的Codec已经改为Snappy。</p><p>LZF和Snappy相比较，前者压缩率比较高（当然要看具体数据内容了，通常要高20%左右），但是除了内存问题以外，CPU代价也大一些（大概也差20%~50%？）</p><p>在用于Shuffle数据的场合下，内存方面，应该主要是在使用HashShuffleManager的时候有可能成为问题，因为如果Reduce分区数量巨大，需要同时打开大量的压缩数据流用于写文件，进而在Codec方面需要大量的buffer。但是如果使用SortShuffleManager，由于shuffle文件数量大大减少，不会产生大量的压缩数据流，所以内存开销大概不会成为主要问题。</p><p>剩下的就是CPU和压缩率的权衡取舍，和前面一样，取决于CPU/网络/磁盘的能力和负载，个人认为CPU通常更容易成为瓶颈。所以要调整性能，要不不压缩，要不使用Snappy可能性大一些？</p><p>对于RDD Cache的场合来说，绝大多数场合都是内存操作或者本地IO，所以CPU负载的问题可能比IO的问题更加突出，这也是为什么 spark.rdd.compress 本身默认为不压缩，如果要压缩，大概也是Snappy合适一些？</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;压缩和序列化性能优化参数设置&quot;&gt;&lt;a href=&quot;#压缩和序列化性能优化参数设置&quot; class=&quot;headerlink&quot; title=&quot;压缩和序列化性能优化参数设置&quot;&gt;&lt;/a&gt;压缩和序列化性能优化参数设置&lt;/h3&gt;&lt;h4 id=&quot;1-spark-serializer&quot;&gt;&lt;a href=&quot;#1-spark-serializer&quot; class=&quot;headerlink&quot; title=&quot;(1) spark.serializer&quot;&gt;&lt;/a&gt;(1) spark.serializer&lt;/h4&gt;&lt;p&gt;默认为org.apache.spark.serializer.JavaSerializer, 可选 org.apache.spark.serializer.KryoSerializer, 实际上只要是org.apache.spark.serializer的子类就可以了,不过如果只是应用,大概你不会自己去实现一个的。&lt;/p&gt;
     
     </summary>
     
