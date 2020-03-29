@@ -157,61 +157,6 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    18 minutes read (About 2705 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/06/01/spark-schedule-optimization/">spark-schedule性能优化</a>
-            
-        </h1>
-        <div class="content">
-            <p>调度相关的参数设置，大多数内容都很直白，其实无须过多的额外解释，不过基于这些参数的常用性（大概会是你针对自己的集群第一步就会配置的参数），这里多少就其内部机制做一些解释。</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2017/06/01/spark-schedule-optimization/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-05-31T16:00:00.000Z">2017-06-01</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
                     11 minutes read (About 1641 words)
                 </span>
                 
@@ -268,7 +213,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    17 minutes read (About 2612 words)
+                    18 minutes read (About 2705 words)
                 </span>
                 
                 
@@ -277,11 +222,11 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/06/01/spark-shuffle-optimization/">spark-shuffle性能优化</a>
+                <a class="has-link-black-ter" href="/2017/06/01/spark-schedule-optimization/">spark-schedule性能优化</a>
             
         </h1>
         <div class="content">
-            <p>Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Manager在文件读写效率方面的问题而实现的Sort Base的Shuffle Manager。</p>
+            <p>调度相关的参数设置，大多数内容都很直白，其实无须过多的额外解释，不过基于这些参数的常用性（大概会是你针对自己的集群第一步就会配置的参数），这里多少就其内部机制做一些解释。</p>
         </div>
 
         
@@ -289,62 +234,7 @@
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2017/06/01/spark-shuffle-optimization/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-05-31T16:00:00.000Z">2017-06-01</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 minutes read (About 1110 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/06/01/spark-updateStateByKey状态更新/">spark-updateStateByKey状态更新</a>
-            
-        </h1>
-        <div class="content">
-            <p>SparkStreaming是基于时间分片的近实时处理组件，比如需要实时对日志进行词频统计，通常是使用reduceByKey来处理，这样处理的结果是每一个时间片段的词频统计，例如第n个时间片的处理结果是[hello:3, world:5]，第n+1个时间片的处理结果是[hello:2, world:2]，但是这并不是我们期望的结果，我们期望得到的结果是不断累积各个时间片的词频，如上面的例子所希望的结果应该是[hello:5, world:7]。</p>
-        </div>
-
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2017/06/01/spark-updateStateByKey状态更新/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2017/06/01/spark-schedule-optimization/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -433,6 +323,61 @@
                 <span class="level-item has-text-grey">
                     
                     
+                    17 minutes read (About 2612 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/06/01/spark-shuffle-optimization/">spark-shuffle性能优化</a>
+            
+        </h1>
+        <div class="content">
+            <p>Shuffle操作大概是对Spark性能影响最大的步骤之一（因为可能涉及到排序，磁盘IO，网络IO等众多CPU或IO密集的操作），这也是为什么在Spark 1.1的代码中对整个Shuffle框架代码进行了重构，将Shuffle相关读写操作抽象封装到Pluggable的Shuffle Manager中，便于试验和实现不同的Shuffle功能模块。例如为了解决Hash Based的Shuffle Manager在文件读写效率方面的问题而实现的Sort Base的Shuffle Manager。</p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/06/01/spark-shuffle-optimization/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-05-31T16:00:00.000Z">2017-06-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
                     9 minutes read (About 1350 words)
                 </span>
                 
@@ -455,6 +400,61 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2017/06/01/spark-编程常用例子（Java版）-1/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-05-31T16:00:00.000Z">2017-06-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/spark/">spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes read (About 1110 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/06/01/spark-updateStateByKey状态更新/">spark-updateStateByKey状态更新</a>
+            
+        </h1>
+        <div class="content">
+            <p>SparkStreaming是基于时间分片的近实时处理组件，比如需要实时对日志进行词频统计，通常是使用reduceByKey来处理，这样处理的结果是每一个时间片段的词频统计，例如第n个时间片的处理结果是[hello:3, world:5]，第n+1个时间片的处理结果是[hello:2, world:2]，但是这并不是我们期望的结果，我们期望得到的结果是不断累积各个时间片的词频，如上面的例子所希望的结果应该是[hello:5, world:7]。</p>
+        </div>
+
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/06/01/spark-updateStateByKey状态更新/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -517,7 +517,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        21
+                        23
                     </p>
                 </div>
             </div>
@@ -527,7 +527,7 @@
                         Categories
                     </p>
                     <p class="title has-text-weight-normal">
-                        9
+                        10
                     </p>
                 </div>
             </div>
@@ -537,7 +537,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        12
                     </p>
                 </div>
             </div>
@@ -584,6 +584,14 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/elasticsearch/">
             <span class="level-start">
                 <span class="level-item">elasticsearch</span>
@@ -670,6 +678,44 @@
         
         <article class="media">
             
+            <a href="/2020/01/20/Mybatis抽象出通用方法/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Mybatis抽象出通用方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-19T16:00:00.000Z">2020-01-20</time></div>
+                    <a href="/2020/01/20/Mybatis抽象出通用方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Mybatis抽象出通用方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/10/HIbernate抽象出通用方法/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="HIbernate抽象出通用方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-09T16:00:00.000Z">2020-01-10</time></div>
+                    <a href="/2020/01/10/HIbernate抽象出通用方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal">HIbernate抽象出通用方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/12/01/数据湖架构/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="数据湖架构">
@@ -725,44 +771,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/03/01/分而治之/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="分而治之">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-28T16:00:00.000Z">2019-03-01</time></div>
-                    <a href="/2019/03/01/分而治之/" class="title has-link-black-ter is-size-6 has-text-weight-normal">分而治之</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/01/01/分类-朴素贝叶斯/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="朴素贝叶斯">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-12-31T16:00:00.000Z">2018-01-01</time></div>
-                    <a href="/2018/01/01/分类-朴素贝叶斯/" class="title has-link-black-ter is-size-6 has-text-weight-normal">朴素贝叶斯</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -774,6 +782,20 @@
                 Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hibernate/">
+                        <span class="tag">Hibernate</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Mybatis/">
+                        <span class="tag">Mybatis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/elasticsearch/">
@@ -856,7 +878,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 16.67px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a>
+        <a href="/tags/Hibernate/" style="font-size: 10px;">Hibernate</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 16.67px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a>
     </div>
 </div>
 
@@ -868,6 +890,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">

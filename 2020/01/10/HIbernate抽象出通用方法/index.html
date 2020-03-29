@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>HIbernate抽象出通用方法 - Recorder</title>
+
+
+    <meta name="description" content="前言 Hibernate的目标是让开发者不用写sql就能实现对象到数据表的映射操作。当然，理想很美好，现实很骨感，在使用Hibernate时会遇到很多问题，如重复的增删改查、批量对象操作、分页等等，所以如果能抽象出这些通用方法，除了提高代码的整洁性，还能提高开发效率。">
+<meta name="keywords" content="Hibernate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HIbernate抽象出通用方法">
+<meta property="og:url" content="http://yoursite.com/2020/01/10/HIbernate抽象出通用方法/index.html">
+<meta property="og:site_name" content="Recorder">
+<meta property="og:description" content="前言 Hibernate的目标是让开发者不用写sql就能实现对象到数据表的映射操作。当然，理想很美好，现实很骨感，在使用Hibernate时会遇到很多问题，如重复的增删改查、批量对象操作、分页等等，所以如果能抽象出这些通用方法，除了提高代码的整洁性，还能提高开发效率。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="og:updated_time" content="2020-03-29T05:46:25.907Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HIbernate抽象出通用方法">
+<meta name="twitter:description" content="前言 Hibernate的目标是让开发者不用写sql就能实现对象到数据表的映射操作。当然，理想很美好，现实很骨感，在使用Hibernate时会遇到很多问题，如重复的增删改查、批量对象操作、分页等等，所以如果能抽象出这些通用方法，除了提高代码的整洁性，还能提高开发效率。">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/og_image.png" alt="HIbernate抽象出通用方法" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-09T16:00:00.000Z">2020-01-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 minutes read (About 2611 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                HIbernate抽象出通用方法
+            
+        </h1>
+        <div class="content">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>Hibernate的目标是让开发者不用写sql就能实现对象到数据表的映射操作。当然，理想很美好，现实很骨感，在使用Hibernate时会遇到很多问题，如重复的增删改查、批量对象操作、分页等等，所以如果能抽象出这些通用方法，除了提高代码的整洁性，还能提高开发效率。</p>
+<a id="more"></a> 
+
+<p>实现如下：</p>
+<p><strong><em>1、通用接口定义：HibernateBaseDao</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 数据库操作接口：Hibernate BaseDao</span></span><br><span class="line"><span class="hljs-comment">* &lt;pre&gt;</span></span><br><span class="line"><span class="hljs-comment">* 使用jpa规范，该接口定义了操作数据库的常用api（增、删、改、查）</span></span><br><span class="line"><span class="hljs-comment">* jpa操作的是对象，所以接口的参数都是对对象的操作    </span></span><br><span class="line"><span class="hljs-comment">* spring boot 对jpa的自动配置，放在org.springframework.boot.autoconfigure.com.jpa下面，</span></span><br><span class="line"><span class="hljs-comment">* 包含hibernate的自动配置，说明spring默认jpa的实现者是hibernate。</span></span><br><span class="line"><span class="hljs-comment">* &lt;/pre&gt;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HibernateBaseDao</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">    * 保存实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> t    泛型    保存到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(T t)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">    * 批量保存实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> objs    泛型数组    保存到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(T[] objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">    * 批量保存实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> objs    泛型集合    保存到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">    * 更新实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> t    泛型     更新到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(T t)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">       * 批量更新实体</span></span><br><span class="line"><span class="hljs-comment">       * <span class="hljs-doctag">@param</span> objs    泛型数组     更新到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">       * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">       */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(T[] objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">       * 批量更新实体</span></span><br><span class="line"><span class="hljs-comment">       * <span class="hljs-doctag">@param</span> objs    泛型集合     更新到数据库的对象</span></span><br><span class="line"><span class="hljs-comment">       * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">       */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 删除实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> t    泛型    从数据库删除指定对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(T t)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 批量删除实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> objs    泛型数组    从数据库批量删除对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(T[] objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 批量删除实体</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> objs    泛型集合    从数据库批量删除对象</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 空</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据主键查询</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> id    Object    根据id字段查询</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> T</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getById</span><span class="hljs-params">(Object id)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据主键数组查询</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ids    id主键数组</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getByIds</span><span class="hljs-params">(Object[] ids)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据字段name查询，该表要存在字段：name</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> name    Object    根据name字段查询</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getByName</span><span class="hljs-params">(Object name)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     *</span></span><br><span class="line"><span class="hljs-comment">     * 查询最小的name字段</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> name</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getMinName</span><span class="hljs-params">(String name)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 查询所有记录</span></span><br><span class="line"><span class="hljs-comment">    * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getAll</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据条件集合查询记录</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions  查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据条件集合查询记录，具有排序功能</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions  查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> orderBy          排序, 如 order by id desc</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据条件集合查询记录，具有排序和分页功能</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions 查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> orderBy         排序, 如 order by id desc</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> currentPage     当前页</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> pageSize        每页显示记录数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> List&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            <span class="hljs-keyword">int</span> currentPage, <span class="hljs-keyword">int</span> pageSize)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据条件集合查询单条记录</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions  查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> T</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getSingleResult</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据条件查询记录数量</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions  查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getRecordCount</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 根据jpql查询</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> jpql jpql主要用于JPA查询数据，和SQL语句的语法大同小异</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> objects    参数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> List&lt;?&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">public</span> List&lt;?&gt; getByJpql(String jpql, Object...objects);</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 执行jpql语句</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> jpql    jpql主要用于JPA查询数据，和SQL语句的语法大同小异</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> objects    参数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">executeJpql</span><span class="hljs-params">(String jpql, Object...objects)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 分页查询</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions   查询条件集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> orderBy           排序字段 如：order by id desc</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> currentPage       当前页</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> pageSize          每页显示记录数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> Pagination&lt;T&gt;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Pagination&lt;T&gt; <span class="hljs-title">getPagination</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy, <span class="hljs-keyword">int</span> currentPage, <span class="hljs-keyword">int</span> pageSize)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 查找唯一结果</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> jpql    jpql主要用于JPA查询数据，和SQL语句的语法大同小异</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> objects    参数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> T</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getUniqueResultByJpql</span><span class="hljs-params">(String jpql, Object...objects)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 执行原生的sql</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sql</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">executeNativeQuerySql</span><span class="hljs-params">(String sql)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * flush缓存</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">flush</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * clear缓存</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 刷新实体</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> entity</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">refresh</span><span class="hljs-params">(Object entity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>2、通用接口实现类：HibernateBaseDaoImpl</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> java.lang.reflect.ParameterizedType;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> javax.persistence.EntityManager;</span><br><span class="line"><span class="hljs-keyword">import</span> javax.persistence.PersistenceContext;</span><br><span class="line"><span class="hljs-keyword">import</span> javax.persistence.PersistenceContextType;</span><br><span class="line"><span class="hljs-keyword">import</span> javax.persistence.Query;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> org.springframework.transaction.annotation.Transactional;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* BaseDao的实现类：BaseDaoImpl</span></span><br><span class="line"><span class="hljs-comment">* &lt;pre&gt;</span></span><br><span class="line"><span class="hljs-comment">* 使用jpa规范，实现了操作数据库的常用api（增、删、改、查）</span></span><br><span class="line"><span class="hljs-comment">* jpa操作的是对象，所以接口的参数都是对对象的操作    </span></span><br><span class="line"><span class="hljs-comment">* spring boot 对jpa的自动配置，放在org.springframework.boot.autoconfigure.com.jpa下面，</span></span><br><span class="line"><span class="hljs-comment">* 包含hibernate的自动配置，说明spring默认jpa的实现者是hibernate。</span></span><br><span class="line"><span class="hljs-comment">* &lt;/pre&gt;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"><span class="hljs-meta">@Transactional</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HibernateBaseDaoImpl</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">HibernateBaseDao</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@PersistenceContext</span>(type=PersistenceContextType.TRANSACTION)</span><br><span class="line">    <span class="hljs-keyword">protected</span> EntityManager em;</span><br><span class="line">    <span class="hljs-keyword">protected</span> Class&lt;T&gt; clazz;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 获取子类的真实类型</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HibernateBaseDaoImpl</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        ParameterizedType pt = (ParameterizedType) <span class="hljs-keyword">this</span>.getClass().getGenericSuperclass();</span><br><span class="line">        <span class="hljs-keyword">this</span>.clazz = (Class&lt;T&gt;) pt.getActualTypeArguments()[<span class="hljs-number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(T t)</span> </span>&#123;</span><br><span class="line">        em.persist(t);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(T[] objs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">for</span>(T obj : objs) &#123;</span><br><span class="line">            em.persist(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span> </span>&#123;</span><br><span class="line">        Iterator&lt;T&gt; itr = objs.iterator();</span><br><span class="line">        <span class="hljs-keyword">while</span>(itr.hasNext()) &#123;</span><br><span class="line">            em.persist(itr.next());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(T t)</span> </span>&#123;</span><br><span class="line">        em.merge(t);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(T[] objs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">for</span>(T obj : objs) &#123;</span><br><span class="line">            em.merge(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span> </span>&#123;</span><br><span class="line">        Iterator&lt;T&gt; itr = objs.iterator();</span><br><span class="line">        <span class="hljs-keyword">while</span>(itr.hasNext()) &#123;</span><br><span class="line">            em.merge(itr.next());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(T t)</span> </span>&#123;</span><br><span class="line">        em.remove(em.merge(t));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(T[] objs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">for</span>(T obj : objs) &#123;</span><br><span class="line">            em.remove(em.merge(obj));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(Collection&lt;T&gt; objs)</span> </span>&#123;</span><br><span class="line">        Iterator&lt;T&gt; itr = objs.iterator();</span><br><span class="line">        <span class="hljs-keyword">while</span>(itr.hasNext()) &#123;</span><br><span class="line">            em.remove(itr.next());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getById</span><span class="hljs-params">(Object id)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> em.find(clazz, id);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getByIds</span><span class="hljs-params">(Object[] ids)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(ids != <span class="hljs-keyword">null</span> &amp;&amp; ids.length &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">//拼接id数组为字符串</span></span><br><span class="line">            StringBuilder idBuilder = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">""</span>);</span><br><span class="line">            <span class="hljs-keyword">for</span>(Object id : ids) &#123;</span><br><span class="line">                idBuilder.append(id).append(<span class="hljs-string">","</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            String idStr = idBuilder.toString();</span><br><span class="line">            <span class="hljs-keyword">if</span>(idStr.endsWith(<span class="hljs-string">","</span>)) &#123;</span><br><span class="line">                idStr = idStr.substring(<span class="hljs-number">0</span>, idStr.length() - <span class="hljs-number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//jpa查询</span></span><br><span class="line">            String className = clazz.getSimpleName();</span><br><span class="line">            StringBuilder jpql = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"select o from "</span>);</span><br><span class="line">            jpql.append(className).append(<span class="hljs-string">" o where o.id in ("</span>).append(idStr).append(<span class="hljs-string">")"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> em.createQuery(jpql.toString()).getResultList();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-keyword">return</span> Collections.emptyList();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getByName</span><span class="hljs-params">(Object name)</span> </span>&#123;</span><br><span class="line">        String className = clazz.getSimpleName();</span><br><span class="line">        StringBuilder jpql = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"select o from "</span>);</span><br><span class="line">        jpql.append(className).append(<span class="hljs-string">" o where o.name='"</span>).append(name).append(<span class="hljs-string">"'"</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> em.createQuery(jpql.toString()).getResultList();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getMinName</span><span class="hljs-params">(String name)</span> </span>&#123;</span><br><span class="line">        String className = clazz.getSimpleName();</span><br><span class="line">        Query query = em.createQuery(<span class="hljs-string">"select min("</span>+name+<span class="hljs-string">") from  "</span> + className);</span><br><span class="line">         <span class="hljs-keyword">if</span>( query.getSingleResult()==<span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">             <span class="hljs-keyword">return</span> <span class="hljs-number">0L</span>;</span><br><span class="line">         &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> (Long)query.getSingleResult();</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getAll</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        String className = clazz.getSimpleName();</span><br><span class="line">        StringBuilder jpql = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"select o from "</span>);</span><br><span class="line">        jpql.append(className).append(<span class="hljs-string">" o "</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> em.createQuery(jpql.toString()).getResultList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> get(queryConditions, <span class="hljs-keyword">null</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> get(queryConditions, orderBy, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            <span class="hljs-keyword">int</span> currentPage, <span class="hljs-keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        Query query = getQuery(queryConditions, orderBy, <span class="hljs-keyword">false</span>);</span><br><span class="line">        <span class="hljs-keyword">if</span>(currentPage == <span class="hljs-number">0</span> &amp;&amp; pageSize == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> query.getResultList();</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> query.setFirstResult((currentPage - <span class="hljs-number">1</span>) * pageSize).setMaxResults(pageSize).getResultList();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getSingleResult</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span> </span>&#123;</span><br><span class="line">        Query query = getQuery(queryConditions, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> (T)query.getSingleResult();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getRecordCount</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions)</span> </span>&#123;</span><br><span class="line">        Query query = getQuery(queryConditions, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">true</span>);</span><br><span class="line">        Object result = query.getSingleResult();</span><br><span class="line">        <span class="hljs-keyword">long</span> recordCount = <span class="hljs-number">0L</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span>(result != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            recordCount = ((Long)result).longValue();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> recordCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-keyword">public</span> List&lt;?&gt; getByJpql(String jpql, Object... objects) &#123;</span><br><span class="line">        Query query = em.createQuery(jpql);</span><br><span class="line">        <span class="hljs-keyword">if</span>(objects != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (objects != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; objects.length; i ++)&#123;</span><br><span class="line">                    query.setParameter(i, objects[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-keyword">return</span> query.getResultList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">executeJpql</span><span class="hljs-params">(String jpql, Object... objects)</span> </span>&#123;</span><br><span class="line">        Query query = em.createQuery(jpql);</span><br><span class="line">        <span class="hljs-keyword">if</span> (objects != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; objects.length; i ++)&#123;</span><br><span class="line">                query.setParameter(i, objects[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> query.executeUpdate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(&#123; <span class="hljs-string">"unchecked"</span>, <span class="hljs-string">"rawtypes"</span> &#125;)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Pagination&lt;T&gt; <span class="hljs-title">getPagination</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            String orderBy, <span class="hljs-keyword">int</span> currentPage, <span class="hljs-keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        List&lt;T&gt; recordList = get(queryConditions, orderBy, currentPage, pageSize);</span><br><span class="line">        <span class="hljs-keyword">long</span> recordCount = getRecordCount(queryConditions);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Pagination(currentPage, pageSize, recordCount, recordList);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getUniqueResultByJpql</span><span class="hljs-params">(String jpql, Object... objects)</span> </span>&#123;</span><br><span class="line">        Query query = em.createQuery(jpql);</span><br><span class="line">        <span class="hljs-keyword">if</span> (objects != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; objects.length; i ++)&#123;</span><br><span class="line">                query.setParameter(i, objects[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> (T)query.getSingleResult();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 封装jpql语句，根据查询条件获取Query</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> queryConditions</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> orderBy</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> isQueryTotal  是否查询记录总数, true 则查询记录总数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> Query</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> Query <span class="hljs-title">getQuery</span><span class="hljs-params">(List&lt;QueryCondition&gt; queryConditions, String orderBy, <span class="hljs-keyword">boolean</span> isQueryTotal)</span> </span>&#123;</span><br><span class="line">        String className = clazz.getSimpleName();</span><br><span class="line">        String preJPQL = isQueryTotal? <span class="hljs-string">"select count(*) from "</span> : <span class="hljs-string">"select o from "</span>;</span><br><span class="line">        StringBuilder jpql = <span class="hljs-keyword">new</span> StringBuilder(preJPQL);</span><br><span class="line">        jpql.append(className).append(<span class="hljs-string">" o where 1=1 "</span>);</span><br><span class="line">        Query query = <span class="hljs-keyword">null</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span>(queryConditions != <span class="hljs-keyword">null</span> &amp;&amp; queryConditions.size() &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">//构造jpql语句</span></span><br><span class="line">            Iterator&lt;QueryCondition&gt; iterator = queryConditions.iterator();</span><br><span class="line">            <span class="hljs-keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">                QueryCondition queryCondition = iterator.next();</span><br><span class="line">                <span class="hljs-keyword">if</span>(queryCondition!=<span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span>(queryCondition.getOperator().equals(QueryCondition.CUSTOM)) &#123;</span><br><span class="line">                        jpql.append(<span class="hljs-string">" and ("</span>).append(queryCondition.getCustomJPQL()).append(<span class="hljs-string">")"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="hljs-keyword">if</span>(queryCondition.getValue() != <span class="hljs-keyword">null</span> &amp;&amp; !<span class="hljs-string">""</span>.equals(queryCondition.getValue())) &#123;</span><br><span class="line">                        <span class="hljs-comment">//如果占位符名称是*.*格式，则换成*_*格式。且：和名称之间不能有空格</span></span><br><span class="line">                        String placeholder = queryCondition.getField().indexOf(<span class="hljs-string">"."</span>)!=-<span class="hljs-number">1</span> ? queryCondition.getField().replace(<span class="hljs-string">"."</span>, <span class="hljs-string">"_"</span>):queryCondition.getField();</span><br><span class="line">                            jpql.append(<span class="hljs-string">" and o."</span>)</span><br><span class="line">                                .append(queryCondition.getField().trim())</span><br><span class="line">                                .append(<span class="hljs-string">" "</span>)</span><br><span class="line">                                .append(queryCondition.getOperator())</span><br><span class="line">                                .append(<span class="hljs-string">":"</span>)</span><br><span class="line">                                .append(placeholder.trim());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span>(orderBy != <span class="hljs-keyword">null</span> &amp;&amp; !<span class="hljs-string">""</span>.equals(orderBy)) &#123;</span><br><span class="line">            jpql.append(<span class="hljs-string">" "</span>).append(orderBy);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        query = em.createQuery(jpql.toString());</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-keyword">if</span>(queryConditions != <span class="hljs-keyword">null</span> &amp;&amp; queryConditions.size() &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">//为参数赋值</span></span><br><span class="line">            Iterator&lt;QueryCondition&gt; iterator2 = queryConditions.iterator();</span><br><span class="line">            <span class="hljs-keyword">while</span>(iterator2.hasNext()) &#123;</span><br><span class="line">                QueryCondition queryCondition = iterator2.next();</span><br><span class="line">                <span class="hljs-keyword">if</span>(queryCondition!=<span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span>(queryCondition.getValue() != <span class="hljs-keyword">null</span> &amp;&amp; !<span class="hljs-string">""</span>.equals(queryCondition.getValue())) &#123;</span><br><span class="line">                        <span class="hljs-comment">//将占位符中的.替换成_</span></span><br><span class="line">                        queryCondition.setField(queryCondition.getField().indexOf(<span class="hljs-string">"."</span>) != -<span class="hljs-number">1</span> ? queryCondition.getField().replace(<span class="hljs-string">"."</span>, <span class="hljs-string">"_"</span>):queryCondition.getField());</span><br><span class="line">                        <span class="hljs-keyword">if</span>(queryCondition.getOperator().equals(QueryCondition.LK)) &#123;</span><br><span class="line">                            query.setParameter(queryCondition.getField(), <span class="hljs-string">"%"</span>+queryCondition.getValue()+<span class="hljs-string">"%"</span>);</span><br><span class="line">                        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                            query.setParameter(queryCondition.getField(), queryCondition.getValue());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> query;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">executeNativeQuerySql</span><span class="hljs-params">(String sql)</span> </span>&#123;</span><br><span class="line">        Query query = em.createNativeQuery(sql);</span><br><span class="line">        <span class="hljs-keyword">return</span> query.executeUpdate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">flush</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        em.flush();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        em.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">refresh</span><span class="hljs-params">(Object entity)</span> </span>&#123;</span><br><span class="line">        em.refresh(entity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>3、通用分页类：Pagination</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 分页结果对象</span></span><br><span class="line"><span class="hljs-comment">* &lt;pre&gt;</span></span><br><span class="line"><span class="hljs-comment">* 如果是分页查询，返回的结果请用该分页对象封装</span></span><br><span class="line"><span class="hljs-comment">* &lt;/pre&gt;</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pagination</span>&lt;<span class="hljs-title">T</span>&gt;  <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">5104811017362151385L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**当前页*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> currentPage;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**每页显示记录数*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pageSize;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**总记录数*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> recordCount = <span class="hljs-number">1L</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**记录集合*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> List&lt;T&gt; recordList;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**总页数*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pageCount;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**偏移数*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> offset;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**上一页*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> prePage;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**下一页*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> nextPage;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**是否有上一页*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> hasPrePage;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**是否有下一页*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> hasNextPage;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 默认的空参构造数</span></span><br><span class="line"><span class="hljs-comment">     *</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Pagination</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 构造函数,计算总页数、是否有上一页、下一页等.</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> currentPage int    当前页</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> pageSize    int       每页显示记录数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> recordCount    long    总记录数</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> recordList    List&lt;T&gt;     记录集合</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span>  <span class="hljs-title">Pagination</span><span class="hljs-params">(<span class="hljs-keyword">int</span> currentPage, <span class="hljs-keyword">int</span> pageSize, <span class="hljs-keyword">long</span> recordCount, List&lt;T&gt; recordList)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.currentPage = currentPage;</span><br><span class="line">        <span class="hljs-keyword">if</span>(currentPage &lt; <span class="hljs-number">1</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.currentPage = <span class="hljs-number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-keyword">this</span>.pageSize = pageSize;</span><br><span class="line">        <span class="hljs-keyword">this</span>.recordCount = recordCount;</span><br><span class="line">        <span class="hljs-keyword">this</span>.recordList = recordList;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment">//上一页等于当前页减一</span></span><br><span class="line">        <span class="hljs-keyword">this</span>.prePage = <span class="hljs-keyword">this</span>.currentPage - <span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.prePage &lt; <span class="hljs-number">1</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.hasPrePage = <span class="hljs-keyword">false</span>;<span class="hljs-comment">//没有上一页</span></span><br><span class="line">            <span class="hljs-keyword">this</span>.prePage = <span class="hljs-number">1</span>;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.hasPrePage = <span class="hljs-keyword">true</span>;<span class="hljs-comment">//有上一页</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment">//计算总页数</span></span><br><span class="line">        <span class="hljs-keyword">this</span>.pageCount = (<span class="hljs-keyword">int</span>)Math.ceil(recordCount / (<span class="hljs-keyword">double</span>)pageSize);</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.currentPage &gt; <span class="hljs-keyword">this</span>.pageCount) &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.currentPage = <span class="hljs-keyword">this</span>.pageCount;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment">//下一页等于当前页加一</span></span><br><span class="line">        <span class="hljs-keyword">this</span>.nextPage = <span class="hljs-keyword">this</span>.currentPage + <span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.nextPage &gt; <span class="hljs-keyword">this</span>.pageCount) &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.hasNextPage = <span class="hljs-keyword">false</span>;<span class="hljs-comment">//没有下一页</span></span><br><span class="line">            <span class="hljs-keyword">this</span>.nextPage = <span class="hljs-keyword">this</span>.pageCount;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.hasNextPage = <span class="hljs-keyword">true</span>;<span class="hljs-comment">//有下一页</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment">//偏移量</span></span><br><span class="line">        <span class="hljs-keyword">this</span>.offset = (<span class="hljs-keyword">this</span>.currentPage - <span class="hljs-number">1</span>) * pageSize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>4、通用查询条件类：QueryCondition</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* jpql查询条件对象    </span></span><br><span class="line"><span class="hljs-comment">* &lt;pre&gt;</span></span><br><span class="line"><span class="hljs-comment">* 根据jpql的查询语法，把每个条件的操作封装成一个查询对象</span></span><br><span class="line"><span class="hljs-comment">* &lt;/pre&gt;</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QueryCondition</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">     <span class="hljs-comment">/**等于*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String EQ = <span class="hljs-string">"="</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**小于*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String LT = <span class="hljs-string">"&lt;"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**大于*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GT = <span class="hljs-string">"&gt;"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**小于等于*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String LE = <span class="hljs-string">"&lt;="</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**大于等于*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GE = <span class="hljs-string">"&gt;="</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**相似*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String LK = <span class="hljs-string">"like"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@TODO</span> 可以再扩展</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**自定义jpql语句*/</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String CUSTOM = <span class="hljs-string">"custom"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**属性名*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String field;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**操作符*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String operator;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**值*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Object value;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**自定义jpql语句*/</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String customJPQL;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 构造方法</span></span><br><span class="line"><span class="hljs-comment">     * 传入自定义语句</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> customJPQL</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">QueryCondition</span><span class="hljs-params">(String customJPQL)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.customJPQL = customJPQL;</span><br><span class="line">        <span class="hljs-keyword">this</span>.operator = CUSTOM;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 构造方法</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> field   String     属性名</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> operatorString    操作符</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> value  Object   值        如果属性是日期类型,需将字符串格式为日期 如new         SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").parse("2012-03-23 10:22:22")</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">QueryCondition</span><span class="hljs-params">(String field, String operator, Object  value)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.field = field;</span><br><span class="line">        <span class="hljs-keyword">this</span>.operator = operator;</span><br><span class="line">        <span class="hljs-keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>5、通用服务接口：HibernateBaseService</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HibernateBaseService</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span>  <span class="hljs-title">HibernateBaseDao</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>6、通用服务接口实现类：HibernateBaseServiceImpl</em></strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Transactional</span>(rollbackFor = &#123; BaseException.class, RuntimeException.class, Error.class &#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HibernateBaseServiceImpl</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">HibernateBaseDaoImpl</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">HibernateBaseService</span>&lt;<span class="hljs-title">T</span>&gt;</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Hibernate/">Hibernate</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章如有错误，请指出！</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/01/20/Mybatis抽象出通用方法/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Mybatis抽象出通用方法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/01/数据湖架构/">
+                <span class="level-item">数据湖架构</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'bf97577e5733b9445c209e023ff178fc',
+		owner: 'forway',
+		repo: 'comment',
+		oauth: {
+			client_id: 'cd1447ff559a853961fe',
+			client_secret: 'c22425bd7d8677a7987b6488a41562ccd3958ad2',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Forway">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Forway
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ......
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        23
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/forway" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/forway">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/atom.xml">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/elasticsearch/">
+            <span class="level-start">
+                <span class="level-item">elasticsearch</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/flume/">
+            <span class="level-start">
+                <span class="level-item">flume</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/game/">
+            <span class="level-start">
+                <span class="level-item">game</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/java/">
+            <span class="level-start">
+                <span class="level-item">java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/01/20/Mybatis抽象出通用方法/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Mybatis抽象出通用方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-19T16:00:00.000Z">2020-01-20</time></div>
+                    <a href="/2020/01/20/Mybatis抽象出通用方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Mybatis抽象出通用方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/10/HIbernate抽象出通用方法/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="HIbernate抽象出通用方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-09T16:00:00.000Z">2020-01-10</time></div>
+                    <a href="/2020/01/10/HIbernate抽象出通用方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal">HIbernate抽象出通用方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/01/数据湖架构/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据湖架构">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time></div>
+                    <a href="/2019/12/01/数据湖架构/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据湖架构</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/01/布隆过滤器/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="布隆过滤器">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T16:00:00.000Z">2019-06-01</time></div>
+                    <a href="/2019/06/01/布隆过滤器/" class="title has-link-black-ter is-size-6 has-text-weight-normal">布隆过滤器</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/01/简单之美/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="简单之美">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-30T16:00:00.000Z">2019-05-01</time></div>
+                    <a href="/2019/05/01/简单之美/" class="title has-link-black-ter is-size-6 has-text-weight-normal">简单之美</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hibernate/">
+                        <span class="tag">Hibernate</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Mybatis/">
+                        <span class="tag">Mybatis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/elasticsearch/">
+                        <span class="tag">elasticsearch</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/flume/">
+                        <span class="tag">flume</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/game/">
+                        <span class="tag">game</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/spark/">
+                        <span class="tag">spark</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/回归/">
+                        <span class="tag">回归</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/机器学习/">
+                        <span class="tag">机器学习</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/Hibernate/" style="font-size: 10px;">Hibernate</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/elasticsearch/" style="font-size: 10px;">elasticsearch</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/spark/" style="font-size: 16.67px;">spark</a> <a href="/tags/回归/" style="font-size: 10px;">回归</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a>
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/og_image.png" alt="HIbernate抽象出通用方法" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Forway&nbsp;
+                Recording -- 文章如有错误，请指出！
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
